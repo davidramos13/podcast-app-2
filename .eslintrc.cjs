@@ -29,7 +29,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'react'],
   rules: {
-    'react/no-unknown-property': ['error', { ignore: ['css', 'tw'] }],
+    'react/no-unknown-property': ['error', { ignore: ['css', 'tw'] }], // ignore twin.macro & emotion attributes
   },
   settings: {
     react: {
