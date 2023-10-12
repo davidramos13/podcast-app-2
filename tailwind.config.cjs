@@ -1,12 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  corePlugins: {
+    preflight: false,
+  },
   theme: {
-    extend: {
-      colors: {
-        electric: '#db00ff',
-        ribbon: '#0047ff',
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };

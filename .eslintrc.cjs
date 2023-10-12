@@ -16,7 +16,7 @@ module.exports = {
       env: {
         node: true,
       },
-      files: ['.eslintrc.{js,cjs}'],
+      files: ['.eslintrc.cjs', 'tailwind.config.cjs'],
       parserOptions: {
         sourceType: 'script',
       },
