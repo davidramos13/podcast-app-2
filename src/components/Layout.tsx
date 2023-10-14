@@ -1,13 +1,16 @@
-import { Outlet } from "react-router-dom";
-import tw from "twin.macro";
+import { Container } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import tw from 'twin.macro';
 
-const Main = tw.main`flex flex-col items-center`;
+const DivContainer = tw(Container)`flex flex-col p-6`;
 
 const Layout = () => (
-  <Main>
-    <Outlet />
+  <main>
+    <DivContainer fixed>
+      <Outlet />
+    </DivContainer>
     {/* Bottom Player here */}
-  </Main>
-  );
+  </main>
+);
 
 export default Layout;

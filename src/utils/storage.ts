@@ -1,6 +1,9 @@
-import { StorageData } from '~/entities/common';
-
 const DAY_MILLISECS = 86400000; // 1 day in milliseconds
+
+export type StorageData<T> = {
+  timestamp: number;
+  data: T;
+};
 
 export const getStorageData = <T>(key: string) => {
   const data = localStorage.getItem(key);

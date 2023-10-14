@@ -1,14 +1,18 @@
-import { Typography } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import SearchBar from '../ui/SearchBar';
+import usePodcastSearch from './usePodcastSearch';
+import SearchResults from './SearchResults';
 
-const PodcastSearch = () => (
-  <Fragment>
-    <Link to={'podcast/1'}>
-      <Typography>Go to Podcast</Typography>
-    </Link>
-    <img src="/images/gato.jpg" alt="" />
-  </Fragment>
-);
+const PodcastSearch = () => {
+  const { filter, onChangeFilter, data, isLoading } = usePodcastSearch();
+
+  return (
+    <Fragment>
+      <SearchBar filter={filter} setFilter={onChangeFilter} />
+      {isLoading ? <CircularProgress /> : data && <SearchResults podcasts={data} />}
+    </Fragment>
+  );
+};
 
 export default PodcastSearch;

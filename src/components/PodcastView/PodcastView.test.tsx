@@ -1,11 +1,10 @@
 import { Routes, Route } from 'react-router';
-import { episodesApiRaw } from '~/test/mocks/episode';
 import { getServer, render } from '~/test/testUtils';
 import { getEpisodesUrl } from '~/utils/constants';
 import PodcastView from './PodcastView';
 
 const PODCAST_ID = 1;
-const server = getServer([{ url: getEpisodesUrl(PODCAST_ID), data: episodesApiRaw }]);
+const server = getServer([{ url: getEpisodesUrl(PODCAST_ID), data: null }]);
 
 const podcastPageJsx = () => (
   <Routes>

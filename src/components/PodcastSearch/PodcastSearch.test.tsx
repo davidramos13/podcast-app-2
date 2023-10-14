@@ -1,9 +1,7 @@
-import { podcastApi } from '~/test/mocks/podcast';
 import { getServer, render } from '~/test/testUtils';
-import { PODCASTS_URL } from '~/utils/constants';
 import PodcastSearch from './PodcastSearch';
 
-const server = getServer([{ url: PODCASTS_URL, data: podcastApi }]);
+const server = getServer([{ url: '', data: null }]);
 
 describe('Podcast Search', () => {
   beforeAll(() => {
