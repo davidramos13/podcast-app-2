@@ -1,5 +1,6 @@
-export type Podcast = {
-  id: number;
+import { EntityWithID } from './shared';
+
+export type Podcast = EntityWithID & {
   name: string;
   author: string;
   genres: string;

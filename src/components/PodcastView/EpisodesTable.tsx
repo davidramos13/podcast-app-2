@@ -17,9 +17,7 @@ const columns: Column<Episode>[] = [
   {
     name: '#',
     sortable: false,
-    content: (episode: Episode, list: Episode[] = []) => (
-      <PlayerCell episodes={list} episodeId={episode.id} />
-    ),
+    content: (episode: Episode) => <PlayerCell episodeId={episode.id} />,
   },
   {
     name: 'Title',
@@ -34,11 +32,7 @@ const columns: Column<Episode>[] = [
   { name: 'Duration', content: (episode: Episode) => episode.duration },
 ];
 
-const idSelector = (episode: Episode) => episode.id;
-
 type Props = { data: Episode[] };
-const PodcastsTable: FC<Props> = ({ data }) => (
-  <Table columns={columns} data={data} idSelector={idSelector} />
-);
+const PodcastsTable: FC<Props> = ({ data }) => <Table columns={columns} data={data} />;
 
 export default PodcastsTable;

@@ -1,14 +1,15 @@
 import { Slide } from '@mui/material';
 import tw from 'twin.macro';
 import { useAppDispatch, useAppSelector } from '~/store';
-import { playPause, selectPlayerData } from '~/store/player/slice';
+import { selectPlayerBarData } from '~/store/player/selectors';
+import { playPause } from '~/store/player/slice';
 import PlayButton from '../ui/PlayButton';
 
 const PlayerContainer = tw.div`fixed bottom-0 h-28 w-full bg-blue-600`;
 
 const Player = () => {
   const dispatch = useAppDispatch();
-  const { visible, playing } = useAppSelector(({ player }) => selectPlayerData(player));
+  const { visible, playing } = useAppSelector(({ player }) => selectPlayerBarData(player));
 
   const onClick = () => {
     dispatch(playPause({}));

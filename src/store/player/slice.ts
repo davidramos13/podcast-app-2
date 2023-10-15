@@ -1,4 +1,4 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Episode } from '~/entities';
 import episodesApi from '../episodesApi';
 import { PlayerState, Repeat } from './types';
@@ -40,6 +40,7 @@ const playerSlice = createSlice({
     },
   },
   extraReducers: builder => {
+    // listens request for last episode from podcast, and immediately plays it
     builder.addMatcher(
       episodesApi.endpoints.getLastPodcastEpisode.matchFulfilled,
       (state, { payload: episode }) => {
@@ -49,15 +50,6 @@ const playerSlice = createSlice({
     );
   },
 });
-
-export const selectPlayerData = createSelector(
-  (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.playing,
-  (currentIndex, playing) => ({
-    visible: currentIndex !== -1,
-    playing: playing,
-  }),
-);
 
 export const { playPause } = playerSlice.actions;
 export default playerSlice;

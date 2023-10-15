@@ -34,11 +34,7 @@ const columns: Column<Podcast>[] = [
   { name: 'Duration', content: (podcast: Podcast) => podcast.duration },
 ];
 
-const idSelector = (podcast: Podcast) => podcast.id;
-
 type Props = { data: Podcast[] };
-const PodcastsTable: FC<Props> = ({ data }) => (
-  <Table columns={columns} data={data} idSelector={idSelector} />
-);
+const PodcastsTable: FC<Props> = ({ data }) => <Table columns={columns} data={data} />;
 
 export default PodcastsTable;
