@@ -11,7 +11,7 @@ import {
 
 export type Column<T> = {
   name: string;
-  content: (row: T) => string | ReactNode;
+  content: (row: T, list?: T[]) => string | ReactNode;
   customHead?: ReactNode;
   sortable?: boolean;
   cellCss?: TwStyle;
@@ -47,7 +47,7 @@ const Table = <T,>(props: Props<T>) => {
             <TableRow key={idSelector(item)}>
               {columns.map(col => (
                 <StyledCell key={col.name} hideShortDevice={col.hideSmallDevice} css={col.cellCss}>
-                  {col.content(item)}
+                  {col.content(item, data)}
                 </StyledCell>
               ))}
             </TableRow>

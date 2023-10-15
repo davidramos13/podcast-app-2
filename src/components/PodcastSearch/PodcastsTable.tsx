@@ -1,26 +1,32 @@
 import { Typography } from '@mui/material';
-import { FC, Fragment } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'twin.macro';
 import { Table } from '~/components/ui';
 import { Podcast } from '~/entities';
 import { Column } from '../ui/Table';
+import PodcastsPlayerCell from './PodcastsPlayerCell';
+
+const TitleContainer = tw.div`flex flex-col`;
 
 type CellProps = { podcast: Podcast };
 const TitleCell: FC<CellProps> = ({ podcast }) => (
-  <Fragment>
+  <TitleContainer>
     <Link to={`podcast/${podcast.id}`}>
       <Typography>{podcast.name}</Typography>
     </Link>
     <Typography>{podcast.author}</Typography>
-  </Fragment>
+  </TitleContainer>
 );
 
 const columns: Column<Podcast>[] = [
-  { name: '#', sortable: false, content: () => '>' },
+  {
+    name: '#',
+    sortable: false,
+    content: (podcast: Podcast) => <PodcastsPlayerCell podcastId={podcast.id} />,
+  },
   {
     name: 'Title',
-    cellCss: tw`flex flex-col`,
     content: (podcast: Podcast) => <TitleCell podcast={podcast} />,
   },
   { name: 'Genres', content: (podcast: Podcast) => podcast.genres },

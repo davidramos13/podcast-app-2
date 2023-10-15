@@ -3,6 +3,7 @@ import { FC } from 'react';
 import tw from 'twin.macro';
 import Table, { Column } from '~/components/ui/Table';
 import { Episode } from '~/entities';
+import { PlayerCell } from '../Player';
 
 const TextCell = tw(({ children, ...props }) => (
   <Typography variant="body2" {...props}>
@@ -13,7 +14,13 @@ const TextCell = tw(({ children, ...props }) => (
 const TitleCell = tw(TextCell)`min-w-[150px]`;
 
 const columns: Column<Episode>[] = [
-  { name: '#', sortable: false, content: () => '>' },
+  {
+    name: '#',
+    sortable: false,
+    content: (episode: Episode, list: Episode[] = []) => (
+      <PlayerCell episodes={list} episodeId={episode.id} />
+    ),
+  },
   {
     name: 'Title',
     content: (episode: Episode) => <TitleCell>{episode.title}</TitleCell>,

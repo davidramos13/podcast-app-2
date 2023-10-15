@@ -1,12 +1,15 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import episodesApi from './episodesApi';
+import playerSlice from './player/slice';
 import podcastsApi from './podcastsApi';
+import podcastSearchSlice from './podcastSearchSlice';
 
 const rootReducer = combineReducers({
   [podcastsApi.reducerPath]: podcastsApi.reducer,
   [episodesApi.reducerPath]: episodesApi.reducer,
+  [playerSlice.name]: playerSlice.reducer,
+  [podcastSearchSlice.name]: podcastSearchSlice.reducer,
 });
 
 export const setupStore = () => {
@@ -15,7 +18,6 @@ export const setupStore = () => {
     middleware: gdm => gdm().concat(podcastsApi.middleware).concat(episodesApi.middleware),
   });
 
-  setupListeners(store.dispatch);
   return store;
 };
 
