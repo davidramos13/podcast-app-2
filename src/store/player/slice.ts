@@ -14,28 +14,37 @@ const initialState: PlayerState = {
   shuffle: false,
 };
 
-type PlayPayload = { selectedId?: number; episodes?: Episode[] };
+type PlayPayload = { selectedId: number; episodes: Episode[] };
 
-const playPauseAction = (state: PlayerState, { selectedId, episodes }: PlayPayload) => {
-  if (episodes) {
-    state.episodes = episodes;
+const loadList = (state: PlayerState, { selectedId, episodes }: PlayPayload) => {
+  state.episodes = episodes;
+  state.currentIndex = episodes.findIndex(x => x.id === selectedId);
+};
+
+// logic for this one explained below the file
+const playPauseAction = (state: PlayerState, payload?: PlayPayload) => {
+  if (!state.episodes.length) {
+    if (!payload) return;
+    loadList(state, payload);
+    state.playing = true;
+    return;
   }
-  if (!state.episodes.length) return;
 
-  if (selectedId) {
-    state.currentIndex = state.episodes.findIndex(e => e.id === selectedId);
-  }
-
-  if (state.currentIndex !== -1) {
+  if (!payload) {
     state.playing = !state.playing;
+    return;
   }
+
+  const currentId = state.episodes[state.currentIndex].id;
+  loadList(state, payload);
+  state.playing = currentId === payload.selectedId ? !state.playing : true;
 };
 
 const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
-    playPause: (state, { payload }: PayloadAction<PlayPayload>) => {
+    playPause: (state, { payload }: PayloadAction<PlayPayload | undefined>) => {
       playPauseAction(state, payload);
     },
   },
@@ -53,3 +62,18 @@ const playerSlice = createSlice({
 
 export const { playPause } = playerSlice.actions;
 export default playerSlice;
+
+/*
+  LOAD = set received values (episode list and index for id)
+
+  logic here:
+  - no episodes loaded
+      - nothing received => return
+      - received payload => LOAD & PLAY
+  - episodes loaded
+      - nothing received => PLAY/PAUSE
+      - received payload
+          LOAD (might set state.episodes to the same value, or not)
+          - current id === new id => PLAY/PAUSE
+          - current id !== new id => PLAY
+*/

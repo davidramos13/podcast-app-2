@@ -1,23 +1,9 @@
-import { Typography } from '@mui/material';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
-import tw from 'twin.macro';
 import { Table } from '~/components/ui';
+import { Column } from '~/components/ui/Table';
 import { Podcast } from '~/entities';
-import { Column } from '../ui/Table';
 import PodcastsPlayerCell from './PodcastsPlayerCell';
-
-const TitleContainer = tw.div`flex flex-col`;
-
-type CellProps = { podcast: Podcast };
-const TitleCell: FC<CellProps> = ({ podcast }) => (
-  <TitleContainer>
-    <Link to={`podcast/${podcast.id}`}>
-      <Typography>{podcast.name}</Typography>
-    </Link>
-    <Typography>{podcast.author}</Typography>
-  </TitleContainer>
-);
+import TitleCell from './TitleCell';
 
 const columns: Column<Podcast>[] = [
   {

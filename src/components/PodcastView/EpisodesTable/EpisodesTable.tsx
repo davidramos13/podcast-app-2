@@ -1,23 +1,13 @@
-import { Typography } from '@mui/material';
 import { FC } from 'react';
-import tw from 'twin.macro';
 import Table, { Column } from '~/components/ui/Table';
 import { Episode } from '~/entities';
-import { PlayerCell } from '../Player';
-
-const TextCell = tw(({ children, ...props }) => (
-  <Typography variant="body2" {...props}>
-    {children}
-  </Typography>
-))`text-ellipsis line-clamp-3`;
-
-const TitleCell = tw(TextCell)`min-w-[150px]`;
+import { EpisodePlayerCell, TextCell, TitleCell } from './cells';
 
 const columns: Column<Episode>[] = [
   {
     name: '#',
     sortable: false,
-    content: (episode: Episode) => <PlayerCell episodeId={episode.id} />,
+    content: (episode: Episode) => <EpisodePlayerCell episodeId={episode.id} />,
   },
   {
     name: 'Title',

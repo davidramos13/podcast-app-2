@@ -1,8 +1,8 @@
 import { CircularProgress } from '@mui/material';
 import { FC, memo } from 'react';
+import { PlayerCell } from '~/components/Player';
+import PlayButton from '~/components/ui/PlayButton';
 import { useLazyGetLastPodcastEpisodeQuery } from '~/store/episodesApi';
-import { PlayerCell } from '../Player';
-import PlayButton from '../ui/PlayButton';
 
 type Props = { podcastId: number };
 const PodcastsPlayerCell: FC<Props> = props => {

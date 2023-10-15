@@ -5,14 +5,14 @@ import { selectPlayerBarData } from '~/store/player/selectors';
 import { playPause } from '~/store/player/slice';
 import PlayButton from '../ui/PlayButton';
 
-const PlayerContainer = tw.div`fixed bottom-0 h-28 w-full bg-blue-600`;
+const PlayerContainer = tw.div`fixed bottom-0 h-28 w-full bg-bgGray`;
 
 const Player = () => {
   const dispatch = useAppDispatch();
   const { visible, playing } = useAppSelector(({ player }) => selectPlayerBarData(player));
 
   const onClick = () => {
-    dispatch(playPause({}));
+    dispatch(playPause());
   };
 
   return (

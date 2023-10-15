@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { EntityWithID } from '~/entities/shared';
 import { TableContext } from './useTableContext';
+import { unforward } from '~/utils/styling';
 
 export type Column<T extends EntityWithID> = {
   name: string;
@@ -25,7 +26,10 @@ type Props<T extends EntityWithID> = {
   columns: Column<T>[];
 };
 
-const StyledCell = styled(TableCell, { shouldForwardProp: prop => prop !== 'hideShortDevice' })<{
+const StyledCell = styled(
+  TableCell,
+  unforward('hideShortDevice'),
+)<{
   hideShortDevice?: boolean;
 }>(({ hideShortDevice }) => [hideShortDevice && tw`hidden lg:table-cell`]);
 
