@@ -2,6 +2,10 @@ import darkScrollbar from '@mui/material/darkScrollbar';
 import createTheme from '@mui/material/styles/createTheme';
 
 const theme = createTheme({
+  breakpoints: {
+    // same as tailwind breakpoints
+    values: { xs: 0, sm: 640, md: 768, lg: 1024, xl: 1280 },
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -15,9 +19,7 @@ const theme = createTheme({
   },
   palette: {
     mode: 'dark',
-    text: {
-      primary: '#FFFFFF4D',
-    },
+    text: { primary: '#FFFFFF4D' },
   },
   typography: {
     fontFamily: 'Quicksand, sans-serif',

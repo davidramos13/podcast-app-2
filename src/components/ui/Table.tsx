@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+import tw, { styled, TwStyle } from 'twin.macro';
 import {
   TableContainer,
   TableHead,
@@ -6,13 +8,14 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material';
-import { ReactNode } from 'react';
 
 export type Column<T> = {
   name: string;
   content: (row: T) => string | ReactNode;
   customHead?: ReactNode;
   sortable?: boolean;
+  cellCss?: TwStyle;
+  hideSmallDevice?: boolean;
 };
 
 type Props<T> = {
@@ -20,6 +23,10 @@ type Props<T> = {
   data: T[];
   columns: Column<T>[];
 };
+
+const StyledCell = styled(TableCell, { shouldForwardProp: prop => prop !== 'hideShortDevice' })<{
+  hideShortDevice?: boolean;
+}>(({ hideShortDevice }) => [hideShortDevice && tw`hidden lg:table-cell`]);
 
 const Table = <T,>(props: Props<T>) => {
   const { data, columns, idSelector } = props;
@@ -29,7 +36,9 @@ const Table = <T,>(props: Props<T>) => {
         <TableHead>
           <TableRow>
             {columns.map(col => (
-              <TableCell key={col.name}>{col.customHead || col.name}</TableCell>
+              <StyledCell key={col.name} hideShortDevice={col.hideSmallDevice}>
+                {col.customHead || col.name}
+              </StyledCell>
             ))}
           </TableRow>
         </TableHead>
@@ -37,7 +46,9 @@ const Table = <T,>(props: Props<T>) => {
           {data.map(item => (
             <TableRow key={idSelector(item)}>
               {columns.map(col => (
-                <TableCell key={col.name}>{col.content(item)}</TableCell>
+                <StyledCell key={col.name} hideShortDevice={col.hideSmallDevice} css={col.cellCss}>
+                  {col.content(item)}
+                </StyledCell>
               ))}
             </TableRow>
           ))}

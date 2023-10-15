@@ -2,7 +2,7 @@ export type Podcast = {
   id: number;
   name: string;
   author: string;
-  genres: string[];
+  genres: string;
   releaseDate: string;
-  duration?: number;
+  duration: string;
 };

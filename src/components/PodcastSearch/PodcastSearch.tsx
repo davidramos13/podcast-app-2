@@ -1,8 +1,8 @@
-import CircularProgress from '@mui/material/CircularProgress';
 import { Fragment } from 'react';
-import SearchBar from '../ui/SearchBar';
+import CircularProgress from '@mui/material/CircularProgress';
 import usePodcastSearch from './usePodcastSearch';
-import SearchResults from './SearchResults';
+import { SearchBar } from '../ui';
+import PodcastsTable from './PodcastsTable';
 
 const PodcastSearch = () => {
   const { filter, onChangeFilter, data, isLoading } = usePodcastSearch();
@@ -10,7 +10,7 @@ const PodcastSearch = () => {
   return (
     <Fragment>
       <SearchBar filter={filter} setFilter={onChangeFilter} />
-      {isLoading ? <CircularProgress /> : data && <SearchResults podcasts={data} />}
+      {isLoading ? <CircularProgress /> : data && <PodcastsTable data={data} />}
     </Fragment>
   );
 };

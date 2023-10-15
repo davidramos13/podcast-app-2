@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from '@mui/material';
 import { ChangeEventHandler, FC } from 'react';
 
-const DivContainer = tw.div`flex gap-4 pl-5 pr-[5px] items-center rounded-[15px] bg-[#1A1A1A]`;
+const DivContainer = tw.div`flex gap-4 pl-5 pr-[5px] items-center rounded-[15px] bg-[#1A1A1A] w-full`;
 const TwSearchIcon = tw(SearchIcon)`w-5 h-5`;
 const SearchInput = tw(InputBase)`h-[50px] w-full`;
 
