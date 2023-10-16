@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import tw from 'twin.macro';
 import Table from '~/components/ui/Table';
 import { Column } from '~/components/ui/Table/types';
 import { Episode } from '~/entities';
@@ -16,6 +17,7 @@ const columns: Column<Episode>[] = [
     name: 'Title',
     content: episode => <TitleCell episode={episode} />,
     sortableContent: episode => episode.title,
+    cellCss: tw`lg:w-72`,
   },
   {
     name: 'Topic',

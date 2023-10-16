@@ -8,7 +8,7 @@ import { createPlayList } from '~/entities/playItem';
 
 const CellContainer = tw.div`flex items-center gap-5`;
 const Img = tw.img`w-[45px] h-[45px] rounded-lg`;
-const TitleText = tw(Typography)`text-white lg:min-w-[250px]`;
+const TitleText = tw(Typography)`text-white`;
 
 export const TextCell = tw(({ children, ...props }) => (
   <Typography variant="body2" {...props}>

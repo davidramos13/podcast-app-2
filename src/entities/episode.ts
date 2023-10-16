@@ -5,7 +5,7 @@ export type Episode = EntityWithID & {
   title: string;
   releaseDate: string;
   description: string;
-  duration?: number;
+  duration: number;
   url: string;
   thumbnailUrl: string;
   imageUrl: string;

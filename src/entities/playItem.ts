@@ -5,6 +5,7 @@ export type PlayItem = {
   url: string;
   title: string;
   imageUrl: string;
+  duration: number;
 };
 
 export const mapPlayItem = (episode: Episode) => ({
@@ -12,6 +13,7 @@ export const mapPlayItem = (episode: Episode) => ({
   url: episode.url,
   title: episode.title,
   imageUrl: episode.imageUrl,
+  duration: episode.duration,
 });
 
 export const createPlayList = (episodes: Episode[]) => episodes.map(mapPlayItem);

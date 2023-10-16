@@ -7,7 +7,7 @@ const InputContainer = tw.div`w-full gap-4 pl-5 pr-[5px] flex items-center round
 const TwSearchIcon = tw(SearchIcon)`w-5 h-5`;
 const SearchInput = tw(InputBase)`w-full`;
 
-type Props = { filter: string; setFilter: (value: string) => void };
+type Props = { placeholder?: string; filter: string; setFilter: (value: string) => void };
 const SearchBar: FC<Props> = ({ filter, setFilter }) => {
   const onChangeHandler: ChangeEventHandler<HTMLInputElement> = e => {
     setFilter(e.currentTarget.value);
@@ -16,12 +16,7 @@ const SearchBar: FC<Props> = ({ filter, setFilter }) => {
   return (
     <InputContainer>
       <TwSearchIcon />
-      <SearchInput
-        value={filter}
-        onChange={onChangeHandler}
-        placeholder="Search…"
-        inputProps={{ 'aria-label': 'search' }}
-      />
+      <SearchInput value={filter} onChange={onChangeHandler} placeholder="Search…" />
     </InputContainer>
   );
 };

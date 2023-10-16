@@ -8,7 +8,7 @@ export type ITunesResult = {
   trackName: string;
   artistName: string;
   releaseDate: string;
-  trackTimeMillis?: number;
+  trackTimeMillis: number;
   description: string;
   episodeUrl: string;
   genres: string[];

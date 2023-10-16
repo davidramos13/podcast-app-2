@@ -1,13 +1,14 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { PlayerState } from './types';
 
-export const selectPlayerBarData = createSelector(
+export const selectProgress = createSelector(
+  (player: PlayerState) => player.progress,
+  (player: PlayerState) => player.playlist,
   (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.playing,
-  (currentIndex, playing) => ({
-    visible: currentIndex !== -1,
-    playing: playing,
-  }),
+  (progress, playlist, currentIndex) => {
+    const { duration } = playlist[currentIndex];
+    return { progress, duration };
+  },
 );
 
 export const selectPlayingEpisodeId = createSelector(

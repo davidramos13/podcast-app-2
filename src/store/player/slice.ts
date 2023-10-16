@@ -8,7 +8,7 @@ const initialState: PlayerState = {
   playlist: [],
   currentIndex: -1,
   volume: 30,
-  progress: 0,
+  progress: 58,
   playing: false,
   repeat: Repeat.NO,
   shuffle: false,
@@ -51,6 +51,9 @@ const playerSlice = createSlice({
       // my idea here is that if I am sorting any table, I should remove extra items from playing list
       state.playlist = state.playlist.slice(state.currentIndex, state.currentIndex + 1);
     },
+    setVolume: (state, { payload }: PayloadAction<number>) => {
+      state.volume = payload;
+    },
   },
   extraReducers: builder => {
     // listens request for last episode from podcast, and immediately plays it
@@ -66,7 +69,7 @@ const playerSlice = createSlice({
   },
 });
 
-export const { playPause, cleanList } = playerSlice.actions;
+export const { playPause, cleanList, setVolume } = playerSlice.actions;
 export default playerSlice;
 
 /*
