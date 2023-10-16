@@ -14,6 +14,7 @@ type ITunesResult = {
   episodeUrl: string;
   genres: string[];
   artworkUrl60: string;
+  artworkUrl160: string;
 };
 
 export type ITunesResults = {

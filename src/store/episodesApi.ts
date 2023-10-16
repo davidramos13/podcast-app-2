@@ -10,11 +10,14 @@ const transformEpisodes = (apiResults: ITunesResultsRaw): Episode[] => {
     .map(e => ({
       id: e.trackId,
       collectionName: e.collectionName,
+      artistName: e.artistName,
       title: e.trackName,
       releaseDate: e.releaseDate,
       description: e.description,
       duration: e.trackTimeMillis,
       url: e.episodeUrl,
+      thumbnailUrl: e.artworkUrl60,
+      imageUrl: e.artworkUrl160,
     }));
 };
 

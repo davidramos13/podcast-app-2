@@ -14,7 +14,7 @@ const columns: Column<Episode>[] = [
   },
   {
     name: 'Title',
-    content: episode => <TitleCell>{episode.title}</TitleCell>,
+    content: episode => <TitleCell episode={episode} />,
     sortableContent: episode => episode.title,
   },
   {
