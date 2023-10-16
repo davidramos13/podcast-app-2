@@ -11,7 +11,6 @@ export type PlayerState = {
   currentIndex: number;
   volume: number;
   progress: number;
-  loading: boolean;
   playing: boolean;
   repeat: Repeat;
   shuffle: boolean;

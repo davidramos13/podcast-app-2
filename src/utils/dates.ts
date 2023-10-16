@@ -14,12 +14,17 @@ export const formatDateToNow = (dateStr: string) => {
 export const calculateDuration = (ms?: number) => {
   if (!ms) return '';
   const totalSeconds = ms / 1000;
+  const totalMinutes = totalSeconds / 60;
+  const totalHours = totalSeconds / 3600;
   const seconds = Math.floor(totalSeconds % 60)
     .toString()
     .padStart(2, '0');
-  const minutes = Math.floor((totalSeconds / 60) % 60)
+  const minutes = Math.floor(totalMinutes % 60)
     .toString()
     .padStart(2, '0');
-  const time = `${minutes}:${seconds}`;
+  const hours = Math.floor(totalHours % 24)
+    .toString()
+    .padStart(2, '0');
+  const time = `${hours}:${minutes}:${seconds}`;
   return time;
 };

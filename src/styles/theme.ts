@@ -9,10 +9,14 @@ const theme = createTheme({
   components: {
     MuiCssBaseline: {
       styleOverrides: {
+        html: {
+          height: '100%',
+        },
         body: {
           ...darkScrollbar(),
           background: `linear-gradient(0deg, rgba(10, 10, 10, 0.2), rgba(10, 10, 10, 0.2)),
                        linear-gradient(131.55deg, #1B1B1B 0%, #14151F 88.91%)`,
+          backgroundAttachment: 'fixed',
         },
       },
     },

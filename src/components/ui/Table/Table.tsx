@@ -1,5 +1,4 @@
-import { ReactNode } from 'react';
-import tw, { styled, TwStyle } from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import {
   TableContainer,
   TableHead,
@@ -11,32 +10,23 @@ import {
 import { EntityWithID } from '~/entities/shared';
 import { TableContext } from './useTableContext';
 import { unforward } from '~/utils/styling';
-
-export type Column<T extends EntityWithID> = {
-  name: string;
-  content: (row: T) => string | ReactNode;
-  customHead?: ReactNode;
-  sortable?: boolean;
-  cellCss?: TwStyle;
-  hideSmallDevice?: boolean;
-};
-
-type Props<T extends EntityWithID> = {
-  data: T[];
-  columns: Column<T>[];
-};
+import { TableProps } from './types';
+import SortHead from './SortHead';
+import { useTable } from './useTable';
 
 const StyledCell = styled(
   TableCell,
   unforward('hideShortDevice'),
 )<{
   hideShortDevice?: boolean;
-}>(({ hideShortDevice }) => [hideShortDevice && tw`hidden lg:table-cell`]);
+}>(({ hideShortDevice }) => [tw`border-b-light`, hideShortDevice && tw`hidden lg:table-cell`]);
 
-const Table = <T extends EntityWithID>(props: Props<T>) => {
-  const { data, columns } = props;
+const Table = <T extends EntityWithID>(props: TableProps<T>) => {
+  const { data, columns, sortColumn, onSort } = useTable(props);
+
   return (
     <TableContext.Provider value={data}>
+      <SortHead columns={columns} onSort={onSort} sortColumn={sortColumn} />
       <TableContainer>
         <MuiTable>
           <TableHead>
@@ -51,15 +41,18 @@ const Table = <T extends EntityWithID>(props: Props<T>) => {
           <TableBody>
             {data.map(item => (
               <TableRow key={item.id}>
-                {columns.map(col => (
-                  <StyledCell
-                    key={col.name}
-                    hideShortDevice={col.hideSmallDevice}
-                    css={col.cellCss}
-                  >
-                    {col.content(item)}
-                  </StyledCell>
-                ))}
+                {columns.map(col => {
+                  const value = col.sortableContent ? col.sortableContent(item) : null;
+                  return (
+                    <StyledCell
+                      key={col.name}
+                      hideShortDevice={col.hideSmallDevice}
+                      css={col.cellCss}
+                    >
+                      {col.content ? col.content(item) : value}
+                    </StyledCell>
+                  );
+                })}
               </TableRow>
             ))}
           </TableBody>

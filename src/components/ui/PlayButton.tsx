@@ -11,8 +11,8 @@ const TwIconButton = styled(
 )<{ playing: boolean }>(({ playing }) => [playing && tw`bg-pauseBlue`]);
 
 type Props = { playing: boolean; onClick: () => void };
-const PlayButton: FC<Props> = ({ playing, onClick }) => (
-  <TwIconButton playing={playing} onClick={onClick}>
+const PlayButton: FC<Props> = ({ playing, onClick, ...props }) => (
+  <TwIconButton playing={playing} onClick={onClick} {...props}>
     {playing ? <PauseRoundedIcon /> : <PlayArrowRoundedIcon />}
   </TwIconButton>
 );

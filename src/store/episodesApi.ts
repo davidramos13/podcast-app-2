@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Episode } from '~/entities';
 import { BASEURL, getEncodedUrl } from '~/utils/constants';
-import { calculateDuration } from '~/utils/dates';
 import { ITunesResultsRaw, transformITunesResults } from '~/utils/itunes';
 
 const transformEpisodes = (apiResults: ITunesResultsRaw): Episode[] => {
@@ -10,10 +9,11 @@ const transformEpisodes = (apiResults: ITunesResultsRaw): Episode[] => {
     .filter(e => e.kind === 'podcast-episode')
     .map(e => ({
       id: e.trackId,
+      collectionName: e.collectionName,
       title: e.trackName,
-      releaseDate: new Date(e.releaseDate).toLocaleDateString(),
+      releaseDate: e.releaseDate,
       description: e.description,
-      duration: calculateDuration(e.trackTimeMillis),
+      duration: e.trackTimeMillis,
       url: e.episodeUrl,
     }));
 };

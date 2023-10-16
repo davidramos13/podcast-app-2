@@ -5,5 +5,5 @@ export type Podcast = EntityWithID & {
   author: string;
   genres: string;
   releaseDate: string;
-  duration: string;
+  thumbnailUrl: string;
 };

@@ -6,12 +6,14 @@ type ITunesResult = {
   kind: string;
   trackId: number;
   trackName: string;
+  collectionName: string;
   artistName: string;
   releaseDate: string;
   trackTimeMillis?: number;
   description: string;
   episodeUrl: string;
   genres: string[];
+  artworkUrl60: string;
 };
 
 export type ITunesResults = {

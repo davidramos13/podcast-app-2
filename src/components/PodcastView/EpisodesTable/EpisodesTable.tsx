@@ -1,28 +1,48 @@
 import { FC } from 'react';
-import Table, { Column } from '~/components/ui/Table';
+import Table from '~/components/ui/Table';
+import { Column } from '~/components/ui/Table/types';
 import { Episode } from '~/entities';
+import { useAppDispatch } from '~/store';
+import { cleanList } from '~/store/player/slice';
+import { calculateDuration, formatDateToNow } from '~/utils/dates';
 import { EpisodePlayerCell, TextCell, TitleCell } from './cells';
 
 const columns: Column<Episode>[] = [
   {
     name: '#',
-    sortable: false,
-    content: (episode: Episode) => <EpisodePlayerCell episodeId={episode.id} />,
+    content: episode => <EpisodePlayerCell episodeId={episode.id} />,
   },
   {
     name: 'Title',
-    content: (episode: Episode) => <TitleCell>{episode.title}</TitleCell>,
+    content: episode => <TitleCell>{episode.title}</TitleCell>,
+    sortableContent: episode => episode.title,
   },
   {
     name: 'Topic',
-    content: (episode: Episode) => <TextCell>{episode.description}</TextCell>,
+    content: episode => <TextCell>{episode.description}</TextCell>,
+    sortableContent: episode => episode.description,
     hideSmallDevice: true,
   },
-  { name: 'Released', content: (episode: Episode) => episode.releaseDate },
-  { name: 'Duration', content: (episode: Episode) => episode.duration },
+  {
+    name: 'Released',
+    content: episode => formatDateToNow(episode.releaseDate),
+    sortableContent: episode => episode.releaseDate,
+    descending: true,
+  },
+  {
+    name: 'Duration',
+    content: episode => calculateDuration(episode.duration),
+    sortableContent: episode => episode.duration || 0,
+    descending: true,
+  },
 ];
 
 type Props = { data: Episode[] };
-const PodcastsTable: FC<Props> = ({ data }) => <Table columns={columns} data={data} />;
+const EpisodesTable: FC<Props> = ({ data }) => {
+  const dispatch = useAppDispatch();
+  const onSortCallback = () => dispatch(cleanList());
 
-export default PodcastsTable;
+  return <Table columns={columns} data={data} sortedCallback={onSortCallback} />;
+};
+
+export default EpisodesTable;

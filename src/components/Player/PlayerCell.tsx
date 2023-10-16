@@ -6,7 +6,7 @@ import PlayButton from '../ui/PlayButton';
 import { selectPlayingEpisodeId } from '~/store/player/selectors';
 
 type Props = { episodes: Episode[]; episodeId: number };
-const PlayerCell: FC<Props> = ({ episodes, episodeId }) => {
+const PlayerCell: FC<Props> = ({ episodes, episodeId, ...props }) => {
   const dispatch = useAppDispatch();
   const playing = useAppSelector(({ player }) => selectPlayingEpisodeId(player) === episodeId);
 
@@ -14,7 +14,7 @@ const PlayerCell: FC<Props> = ({ episodes, episodeId }) => {
     dispatch(playPause({ episodes, selectedId: episodeId }));
   };
 
-  return <PlayButton playing={playing} onClick={onClick} />;
+  return <PlayButton playing={playing} onClick={onClick} {...props} />;
 };
 
 export default memo(PlayerCell);
