@@ -1,6 +1,6 @@
 import { LinearProgress } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { useAppSelector } from '~/store';
 import { selectProgress } from '~/store/player/selectors';
@@ -15,17 +15,26 @@ const BarProgress = styled(LinearProgress)(() => [
     }
   `,
 ]);
+const Text = tw(Typography)`w-14`;
+
+const getBarPercentage = (time = 0, duration = 0) => {
+  if (!duration || !time) return 0;
+  const percentage = Math.round((time / duration) * 1000) / 10;
+  return percentage;
+};
 
 const Progress = () => {
-  const { progress, duration } = useAppSelector(({ player }) => selectProgress(player));
-  const startTime = calculateDuration(progress);
-  const endTime = calculateDuration(duration);
+  const { currentTime, duration } = useAppSelector(({ player }) => selectProgress(player));
+
+  const startTime = calculateDuration(currentTime);
+  const endTime = useMemo(() => calculateDuration(duration), [duration]);
+  const percentage = getBarPercentage(currentTime, duration);
 
   return (
     <DivContainer>
-      <Typography>{startTime}</Typography>
-      <BarProgress variant="determinate" value={progress} />
-      <Typography tw="text-white">{endTime}</Typography>
+      <Text>{startTime}</Text>
+      <BarProgress variant="determinate" value={percentage} />
+      <Text tw="text-white">{endTime}</Text>
     </DivContainer>
   );
 };

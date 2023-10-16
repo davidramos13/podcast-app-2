@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { EpisodeGroup } from '~/entities/episode';
 import { BASEURL, getEncodedUrl } from '~/utils/constants';
-import { ITunesResultsRaw, transformITunesResults } from '~/utils/itunes';
+import { ITunesResults, transformITunesResults } from '~/utils/itunes';
 import { mapPodcast } from './podcastsApi';
 
-const transformEpisodes = (apiResults: ITunesResultsRaw): EpisodeGroup => {
+const transformEpisodes = (apiResults: ITunesResults): EpisodeGroup => {
   const episodeData = transformITunesResults(apiResults);
   const podcastInfo = episodeData.find(data => data.kind === 'podcast')!;
 
@@ -16,7 +16,7 @@ const transformEpisodes = (apiResults: ITunesResultsRaw): EpisodeGroup => {
       title: e.trackName,
       releaseDate: e.releaseDate,
       description: e.description,
-      duration: e.trackTimeMillis,
+      duration: (e.trackTimeMillis || 0) / 1000,
       url: e.episodeUrl,
       thumbnailUrl: e.artworkUrl60,
       imageUrl: e.artworkUrl160,
@@ -41,7 +41,7 @@ const episodesApi = createApi({
         url: getEncodedUrl(`lookup?id=${podcastId}&entity=podcastEpisode&limit=1`),
         method: 'GET',
       }),
-      transformResponse: (apiResults: ITunesResultsRaw) => {
+      transformResponse: (apiResults: ITunesResults) => {
         const { podcast, episodes } = transformEpisodes(apiResults);
         return { podcast, episode: episodes[0] };
       },

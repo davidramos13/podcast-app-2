@@ -17,7 +17,7 @@ const stopPlaying = (state: PlayerState) => {
 
 // consider repeat, shuffle and playlist length;
 const changeTrack = (state: PlayerState, goingNext: boolean) => {
-  state.progress = 0;
+  state.currentTime = 0;
 
   if (state.playlist.length === 0) {
     // shouldn't happen, just in case

@@ -37,7 +37,7 @@ const playPauseAction = (state: PlayerState, payload?: PlayPayload) => {
     return;
   }
 
-  const currentId = state.playlist[state.currentIndex].episodeId;
+  const currentId = state.playlist[state.currentIndex]?.episodeId || 0;
   loadList(state, payload);
   state.playing = currentId === payload.selectedId ? !state.playing : true;
 };

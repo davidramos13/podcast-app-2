@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Podcast } from '~/entities';
 import { BASEURL, getEncodedUrl } from '~/utils/constants';
-import { ITunesResult, ITunesResultsRaw, transformITunesResults } from '~/utils/itunes';
+import { ITunesResult, ITunesResults, transformITunesResults } from '~/utils/itunes';
 
 export const mapPodcast = (p: ITunesResult) => ({
   id: p.trackId,
@@ -21,7 +21,7 @@ const podcastsApi = createApi({
         url: getEncodedUrl(`search?entity=podcast&limit=10&term=${term}`),
         method: 'GET',
       }),
-      transformResponse: (apiResults: ITunesResultsRaw): Podcast[] => {
+      transformResponse: (apiResults: ITunesResults): Podcast[] => {
         const podcasts = transformITunesResults(apiResults);
         return podcasts.map(mapPodcast);
       },

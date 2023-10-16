@@ -2,13 +2,19 @@ import { createSelector } from '@reduxjs/toolkit';
 import { PlayerState, Repeat } from './types';
 
 export const selectProgress = createSelector(
-  (player: PlayerState) => player.progress,
+  (player: PlayerState) => player.currentTime,
   (player: PlayerState) => player.playlist,
   (player: PlayerState) => player.currentIndex,
-  (progress, playlist, currentIndex) => {
+  (currentTime, playlist, currentIndex) => {
     const { duration } = playlist[currentIndex];
-    return { progress, duration };
+    return { currentTime, duration };
   },
+);
+
+export const selectTrack = createSelector(
+  (player: PlayerState) => player.currentIndex,
+  (player: PlayerState) => player.playlist,
+  (currentIndex, playlist) => playlist[currentIndex],
 );
 
 export const selectPlayingEpisodeId = createSelector(
@@ -16,12 +22,6 @@ export const selectPlayingEpisodeId = createSelector(
   (player: PlayerState) => player.currentIndex,
   (player: PlayerState) => player.playlist,
   (playing, currentIndex, playlist) => (!playing ? 0 : playlist[currentIndex].episodeId),
-);
-
-export const selectTrack = createSelector(
-  (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.playlist,
-  (currentIndex, playlist) => playlist[currentIndex],
 );
 
 export const selectPlayerControlsState = createSelector(

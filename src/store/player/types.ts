@@ -16,7 +16,7 @@ export type PlayerState = {
   playlist: Track[];
   currentIndex: number;
   volume: number;
-  progress: number;
+  currentTime: number;
   playing: boolean;
   repeat: Repeat;
   shuffle: boolean;

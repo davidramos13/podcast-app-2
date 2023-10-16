@@ -8,8 +8,8 @@ import { getNextRepeat, PlayerState, Repeat } from './types';
 const initialState: PlayerState = {
   playlist: [],
   currentIndex: -1,
-  volume: 30,
-  progress: 58,
+  volume: 50,
+  currentTime: 0,
   playing: false,
   repeat: Repeat.NO,
   shuffle: false,
@@ -22,9 +22,14 @@ const playerSlice = createSlice({
     playPause: (state, { payload }: PayloadAction<PlayPayload>) => {
       playPauseAction(state, payload);
     },
+    stop: state => {
+      state.playing = false;
+      state.currentTime = 0;
+    },
     cleanList: state => {
       // my idea here is that if I am sorting any table, I should remove extra items from playing list
       state.playlist = state.playlist.slice(state.currentIndex, state.currentIndex + 1);
+      state.currentIndex = 0;
     },
     nextTrack: state => {
       changeTrack(state, true);
@@ -32,8 +37,8 @@ const playerSlice = createSlice({
     prevTrack: state => {
       changeTrack(state, false);
     },
-    setProgress: (state, { payload }: PayloadAction<number>) => {
-      state.progress = payload;
+    setCurrentTime: (state, { payload }: PayloadAction<number>) => {
+      state.currentTime = payload;
     },
     setRepeat: state => {
       state.repeat = getNextRepeat(state.repeat);
@@ -58,6 +63,6 @@ const playerSlice = createSlice({
   },
 });
 
-export const { playPause, cleanList, nextTrack, prevTrack } = playerSlice.actions;
-export const { setProgress, setRepeat, setShuffle, setVolume } = playerSlice.actions;
+export const { playPause, stop, cleanList, nextTrack, prevTrack } = playerSlice.actions;
+export const { setCurrentTime, setRepeat, setShuffle, setVolume } = playerSlice.actions;
 export default playerSlice;
