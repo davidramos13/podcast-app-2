@@ -1,8 +1,7 @@
+import { Podcast } from './podcast';
 import { EntityWithID } from './shared';
 
 export type Episode = EntityWithID & {
-  collectionName: string;
-  artistName: string;
   title: string;
   releaseDate: string;
   description: string;
@@ -10,4 +9,9 @@ export type Episode = EntityWithID & {
   url: string;
   thumbnailUrl: string;
   imageUrl: string;
+};
+
+export type EpisodeGroup = {
+  podcast: Podcast;
+  episodes: Episode[];
 };

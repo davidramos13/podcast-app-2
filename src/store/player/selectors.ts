@@ -13,6 +13,12 @@ export const selectPlayerBarData = createSelector(
 export const selectPlayingEpisodeId = createSelector(
   (player: PlayerState) => player.playing,
   (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.episodes,
-  (playing, currentIndex, episodes) => (!playing ? 0 : episodes[currentIndex].id),
+  (player: PlayerState) => player.playlist,
+  (playing, currentIndex, playlist) => (!playing ? 0 : playlist[currentIndex].episodeId),
+);
+
+export const selectPlayItem = createSelector(
+  (player: PlayerState) => player.currentIndex,
+  (player: PlayerState) => player.playlist,
+  (currentIndex, playlist) => playlist[currentIndex],
 );

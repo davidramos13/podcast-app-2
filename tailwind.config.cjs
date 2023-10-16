@@ -16,6 +16,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         podcastView: '60px 1fr 60px',
+        playerLong: '110px 2fr 266px 3fr 1fr',
+        playerShort: '110px 1fr 266px',
+        controls: '24px 24px 50px 24px 24px',
       },
     },
   },

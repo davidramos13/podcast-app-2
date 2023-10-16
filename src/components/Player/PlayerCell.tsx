@@ -1,17 +1,17 @@
 import { FC, memo } from 'react';
-import { Episode } from '~/entities';
+import { PlayItem } from '~/entities';
 import { playPause } from '~/store/player/slice';
 import { useAppDispatch, useAppSelector } from '~/store';
 import PlayButton from '../ui/PlayButton';
 import { selectPlayingEpisodeId } from '~/store/player/selectors';
 
-type Props = { episodes: Episode[]; episodeId: number };
-const PlayerCell: FC<Props> = ({ episodes, episodeId, ...props }) => {
+type Props = { playlist: PlayItem[]; episodeId: number };
+const PlayerCell: FC<Props> = ({ playlist, episodeId, ...props }) => {
   const dispatch = useAppDispatch();
   const playing = useAppSelector(({ player }) => selectPlayingEpisodeId(player) === episodeId);
 
   const onClick = () => {
-    dispatch(playPause({ episodes, selectedId: episodeId }));
+    dispatch(playPause({ playlist, selectedId: episodeId }));
   };
 
   return <PlayButton playing={playing} onClick={onClick} {...props} />;

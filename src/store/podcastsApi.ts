@@ -1,7 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Podcast } from '~/entities';
 import { BASEURL, getEncodedUrl } from '~/utils/constants';
-import { ITunesResultsRaw, transformITunesResults } from '~/utils/itunes';
+import { ITunesResult, ITunesResultsRaw, transformITunesResults } from '~/utils/itunes';
+
+export const mapPodcast = (p: ITunesResult) => ({
+  id: p.trackId,
+  name: p.trackName,
+  author: p.artistName,
+  genres: p.genres.join(', '),
+  releaseDate: p.releaseDate,
+  thumbnailUrl: p.artworkUrl60,
+});
 
 const podcastsApi = createApi({
   reducerPath: 'podcasts',
@@ -14,14 +23,7 @@ const podcastsApi = createApi({
       }),
       transformResponse: (apiResults: ITunesResultsRaw): Podcast[] => {
         const podcasts = transformITunesResults(apiResults);
-        return podcasts.map(p => ({
-          id: p.trackId,
-          name: p.trackName,
-          author: p.artistName,
-          genres: p.genres.join(', '),
-          releaseDate: p.releaseDate,
-          thumbnailUrl: p.artworkUrl60,
-        }));
+        return podcasts.map(mapPodcast);
       },
     }),
   }),

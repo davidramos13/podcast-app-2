@@ -2,11 +2,10 @@ export type ItunesError = {
   errorMessage: string;
 };
 
-type ITunesResult = {
+export type ITunesResult = {
   kind: string;
   trackId: number;
   trackName: string;
-  collectionName: string;
   artistName: string;
   releaseDate: string;
   trackTimeMillis?: number;

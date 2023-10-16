@@ -1,4 +1,4 @@
-import { Episode } from '~/entities';
+import { PlayItem } from '~/entities';
 
 export enum Repeat {
   NO = 'NO',
@@ -7,7 +7,7 @@ export enum Repeat {
 }
 
 export type PlayerState = {
-  episodes: Episode[];
+  playlist: PlayItem[];
   currentIndex: number;
   volume: number;
   progress: number;
