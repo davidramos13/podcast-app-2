@@ -1,5 +1,6 @@
 import { LinearProgress } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { memo } from 'react';
 import tw, { css, styled } from 'twin.macro';
 import { useAppSelector } from '~/store';
 import { selectProgress } from '~/store/player/selectors';
@@ -29,4 +30,4 @@ const Progress = () => {
   );
 };
 
-export default Progress;
+export default memo(Progress);

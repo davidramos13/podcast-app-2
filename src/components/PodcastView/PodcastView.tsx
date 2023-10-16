@@ -9,7 +9,7 @@ import EpisodesTable from './EpisodesTable';
 import Spinner from '../ui/Spinner';
 import Header from '../ui/Header';
 import { PlayerCell } from '../Player';
-import { createPlayList } from '~/entities/playItem';
+import { createPlayList } from '~/entities/track';
 
 const BackButton = tw(IconButton)`bg-bgGray rounded-[15px]`;
 const DivImage = tw.div`w-full h-[280px] mt-[22px] bg-podcast bg-cover bg-no-repeat bg-center rounded-[15px]`;

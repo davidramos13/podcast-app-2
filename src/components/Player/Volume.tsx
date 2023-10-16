@@ -1,5 +1,7 @@
 import { Slider } from '@mui/material';
+import { memo } from 'react';
 import tw from 'twin.macro';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import { useAppDispatch, useAppSelector } from '~/store';
 import { setVolume } from '~/store/player/slice';
 
@@ -10,16 +12,16 @@ const Volume = () => {
   const volume = useAppSelector(({ player }) => player.volume);
   const dispatch = useAppDispatch();
 
-  const onChange = (event: Event, newValue: number | number[]) => {
+  const onChange = (_: Event, newValue: number | number[]) => {
     dispatch(setVolume(newValue as number));
   };
 
   return (
     <DivContainer>
-      <img src="/images/volume.svg" alt="volume" />
+      <VolumeUpIcon tw="text-white" />
       <StyledSlider value={volume} onChange={onChange} size="small" />
     </DivContainer>
   );
 };
 
-export default Volume;
+export default memo(Volume);

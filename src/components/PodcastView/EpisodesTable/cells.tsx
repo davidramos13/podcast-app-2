@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 import { PlayerCell } from '~/components/Player';
 import useTableContext from '~/components/ui/Table/useTableContext';
 import { Episode } from '~/entities';
-import { createPlayList } from '~/entities/playItem';
+import { createPlayList } from '~/entities/track';
 
 const CellContainer = tw.div`flex items-center gap-5`;
 const Img = tw.img`w-[45px] h-[45px] rounded-lg`;

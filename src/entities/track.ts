@@ -1,6 +1,6 @@
 import { Episode } from './episode';
 
-export type PlayItem = {
+export type Track = {
   episodeId: number;
   url: string;
   title: string;
@@ -8,7 +8,7 @@ export type PlayItem = {
   duration: number;
 };
 
-export const mapPlayItem = (episode: Episode) => ({
+export const mapTrack = (episode: Episode) => ({
   episodeId: episode.id,
   url: episode.url,
   title: episode.title,
@@ -16,4 +16,4 @@ export const mapPlayItem = (episode: Episode) => ({
   duration: episode.duration,
 });
 
-export const createPlayList = (episodes: Episode[]) => episodes.map(mapPlayItem);
+export const createPlayList = (episodes: Episode[]) => episodes.map(mapTrack);
