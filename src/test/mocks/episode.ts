@@ -1,24 +1,69 @@
-export const a = 1;
-// import { EpisodesApi, EpisodesApiRaw } from '~/entities/episode';
+import { Track } from '~/entities';
+import { ITunesResults } from '~/utils/itunes';
 
-// const mockData = [
-//   [1, 'EP1', '2023-09-20', 'D1', 1164000],
-//   [2, 'EP2', '2023-09-13', 'D2', 1132000],
-//   [3, 'EP3', '2023-09-06', 'D3', 1100000],
-// ] as [number, string, string, string, number][];
+const mockData = [
+  [1, '2023-08-15', 3200000],
+  [2, '2023-03-09', 4000000],
+  [3, '2023-09-24', 3600000],
+] as [number, string, number][];
 
-// const episodesApi: EpisodesApi = {
-//   results: mockData.map(([id, name, date, desc, trackTime]) => ({
-//     kind: 'podcast-episode',
-//     trackId: id,
-//     trackName: name,
-//     releaseDate: date,
-//     trackTimeMillis: trackTime,
-//     description: desc,
-//     episodeUrl: 'https://www.google.com',
-//   })),
-// };
+export const mockTrack: Track = {
+  episodeId: 7,
+  duration: 4400000,
+  title: 'Track test 7',
+  url: '',
+  imageUrl: '',
+};
 
-// export const episodesApiRaw: EpisodesApiRaw = {
-//   contents: JSON.stringify(episodesApi),
-// };
+export const mockTrackList: Track[] = (
+  [
+    [11, 15000],
+    [12, 20000],
+    [13, 30000],
+    [14, 30000],
+  ] as [number, number][]
+).map(([id, duration]) => ({
+  episodeId: id,
+  duration: duration,
+  title: `Track ${id}`,
+  url: '',
+  imageUrl: '',
+}));
+
+const episodeResults: ITunesResults = {
+  results: mockData.map(([id, releaseDate, duration]) => ({
+    kind: 'podcast-episode',
+    trackId: id,
+    trackName: `Episode test ${id}`,
+    releaseDate: releaseDate,
+    description: `Description ${id}`,
+    trackTimeMillis: duration,
+    url: '',
+    thumbnailUrl: '',
+    imageUrl: '',
+    genres: [],
+    episodeUrl: '',
+    artworkUrl60: '',
+    artworkUrl160: '',
+    artistName: '',
+  })),
+};
+
+episodeResults.results = [
+  {
+    kind: 'podcast',
+    trackId: 9,
+    trackName: 'Podcast 9',
+    artistName: 'Test Artist',
+    releaseDate: '2023-06-01',
+    description: '',
+    genres: [],
+    episodeUrl: '',
+    artworkUrl60: '',
+    artworkUrl160: '',
+    trackTimeMillis: 0,
+  },
+  ...episodeResults.results,
+];
+
+export default episodeResults;

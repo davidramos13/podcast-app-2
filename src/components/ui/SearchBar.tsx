@@ -16,7 +16,12 @@ const SearchBar: FC<Props> = ({ filter, setFilter }) => {
   return (
     <InputContainer>
       <TwSearchIcon />
-      <SearchInput value={filter} onChange={onChangeHandler} placeholder="Search…" />
+      <SearchInput
+        value={filter}
+        onChange={onChangeHandler}
+        placeholder="Search…"
+        inputProps={{ ['data-testid']: 'search-input' }}
+      />
     </InputContainer>
   );
 };

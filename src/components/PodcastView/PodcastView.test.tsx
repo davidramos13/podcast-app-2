@@ -1,34 +1,47 @@
-import { Routes, Route } from 'react-router';
-import { getServer, render } from '~/test/testUtils';
+import { waitFor, screen } from '@testing-library/react';
+import { setupStore } from '~/store';
+import { render } from '~/test/renderUtils';
+import episodesApi from '~/store/episodesApi';
+import episodeResults from '~/test/mocks/episode';
+import { getServer, createServerHooks } from '~/test/serverUtils';
+import { BASEURL } from '~/utils/constants';
 import PodcastView from './PodcastView';
 
-const PODCAST_ID = 1;
-const server = getServer([{ url: '', data: null }]);
+const url = `${BASEURL}/`;
+const server = getServer([{ url, data: episodeResults }]);
 
-const podcastPageJsx = () => (
-  <Routes>
-    <Route path="podcast/:podcastId" element={<PodcastView />} />
-  </Routes>
-);
+const route = { path: '/podcast/:podcastId', podcastId: '9' }; // id matches mock
 
-// handlers to intercept endpoint calls done in App component
+const testIds = {
+  spinner: 'spinner',
+  table: 'table',
+  searchInput: 'search-input',
+  headerImage: 'header-image',
+};
+
 describe('Podcast View', () => {
-  beforeAll(() => {
-    server.listen();
+  const store = setupStore();
+
+  createServerHooks(server, {
+    afterEach: () => store.dispatch(episodesApi.util.resetApiState()),
   });
 
-  afterEach(() => {
-    server.resetHandlers();
-    localStorage.clear();
+  it('should render header and image initially', () => {
+    render(<PodcastView />, store);
+
+    const headerImage = screen.queryByTestId(testIds.headerImage);
+    expect(headerImage).toBeInTheDocument();
   });
 
-  afterAll(() => {
-    server.close();
+  it('should render spinner when loading data', async () => {
+    render(<PodcastView />, store, { route });
+
+    await waitFor(() => expect(screen.queryByTestId(testIds.spinner)).toBeInTheDocument());
   });
 
-  it('TEMP: render', () => {
-    render(podcastPageJsx(), { route: `/podcast/${PODCAST_ID}` });
+  it('should render data at last', async () => {
+    render(<PodcastView />, store, { route });
 
-    // Assertions pending
+    await waitFor(() => expect(screen.queryByText('Episode test 1')).toBeInTheDocument());
   });
 });

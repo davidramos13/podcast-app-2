@@ -28,7 +28,7 @@ const Table = <T extends EntityWithID>(props: TableProps<T>) => {
     <TableContext.Provider value={data}>
       <SortHead columns={columns} onSort={onSort} sortColumn={sortColumn} />
       <TableContainer>
-        <MuiTable>
+        <MuiTable data-testid="table">
           <TableHead>
             <TableRow>
               {columns.map(col => (

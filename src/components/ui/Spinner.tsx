@@ -5,7 +5,7 @@ const DivContainer = tw(Container)`w-full h-12 mt-6 flex justify-center items-ce
 
 const Spinner = () => (
   <DivContainer>
-    <CircularProgress />
+    <CircularProgress data-testid="spinner" />
   </DivContainer>
 );
 

@@ -29,6 +29,5 @@ const theme = createTheme({
     fontFamily: 'Quicksand, sans-serif',
   },
 });
-console.log(theme);
 
 export default theme;

@@ -1,4 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import episodesApi from './episodesApi';
 import audioMiddleware from './player/audioMiddleware';
@@ -7,19 +7,20 @@ import podcastsApi from './podcastsApi';
 import podcastSearchSlice from './podcastSearchSlice';
 
 const rootReducer = combineReducers({
-  [podcastsApi.reducerPath]: podcastsApi.reducer,
-  [episodesApi.reducerPath]: episodesApi.reducer,
-  [playerSlice.name]: playerSlice.reducer,
-  [podcastSearchSlice.name]: podcastSearchSlice.reducer,
+  podcasts: podcastsApi.reducer,
+  episodes: episodesApi.reducer,
+  player: playerSlice.reducer,
+  podcastSearch: podcastSearchSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export const setupStore = () => {
+export const setupStore = <T extends object>(preloadedState?: PreloadedState<T>) => {
   const store = configureStore({
     reducer: rootReducer,
+    preloadedState,
     middleware: gdm =>
-      gdm().concat(podcastsApi.middleware).concat(episodesApi.middleware).concat(audioMiddleware),
+      gdm().prepend(audioMiddleware).concat(podcastsApi.middleware).concat(episodesApi.middleware),
   });
 
   return store;

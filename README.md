@@ -1,12 +1,14 @@
 # Podcast App - Frontend Challenge for Inditex (Image)
 
-This repo covers all requirements set for the challenge. It uses React, Typescript, Redux Toolkit / RTK Query, Vite for bundling, and many ways to do styling (twin.macro which combines CSS-in-JS with Tailwind, and also MUI).
+This repo covers all requirements set for the challenge. It features:
 
-### THIS IS IN PROGRESS! There are some pending tasks I expect to deliver by Tuesday 17th:
+- React with Typescript
+- Redux Toolkit / RTK Query
+- Vite for bundling
+- MUI 5 & twin.macro (CSS-in-JS & Tailwind)
+- Unit testing (Vitest)
 
-- Finish connecting audio related functionality (related UI is ready now)
-- Unit testing
-- Some last moment improvements around like error handling
+I am satisfied with the current work so this is ready to be reviewed and evaluated. But I will keep making some subtle improvements around with less priority.
 
 ## Instructions
 
@@ -22,6 +24,17 @@ For Production mode you need to generate the build first if it doesn't exist. Th
 npm run build
 npm run serve
 ```
+
+---
+
+### Some decisions I took:
+
+- No CRA! It's not the recommended React bundler anymore: [Link](https://dev.to/ag2byte/create-react-app-is-officially-dead-h7o). Going with Vite instead.
+- Changed allorigins.win with corsproxy.io, had intermitent issues with the first one.
+- I am using a debounce strategy for the Podcast Search.
+- Podcasts don't have a "description" field for the list API, I could retrieve that one by one but given that list changes on keystrokes in the Search Bar, that's too much. I am listing "genres" instead.
+- Icons for the Player are changed from Figma version, because I didn't have icons for other states available (ex. RepeatOne, RepeatAll, ShuffleOn).
+- Also made some more changes from Figma version to consider responsiveness.
 
 ---
 

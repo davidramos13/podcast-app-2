@@ -10,16 +10,18 @@ import playerSlice, {
 } from './slice';
 import { PlayerState } from './types';
 
+export type AudioMiddleware = Middleware<
+  unknown,
+  RootState,
+  ThunkDispatch<unknown, unknown, AnyAction>
+>;
+
 const audio = new AudioControl();
 const { nextTrack, prevTrack, playPause, stop, setVolume } = playerSlice.actions;
 const { getLastPodcastEpisode } = episodesApi.endpoints;
 const changeTrackTypes = [nextTrack, prevTrack].map(action => action.type);
 
-const audioMiddleware: Middleware<
-  unknown,
-  RootState,
-  ThunkDispatch<unknown, unknown, AnyAction>
-> = store => {
+const audioMiddleware: AudioMiddleware = store => {
   audio.addEventListener('timeupdate', () => {
     const track = selectTrack(store.getState().player);
     if (!track || !track.duration) return;

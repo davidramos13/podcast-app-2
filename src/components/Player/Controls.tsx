@@ -46,11 +46,15 @@ const Controls = () => {
       <StyledIconButton onClick={onShuffle} disabled={disableShuffle}>
         {shuffleIcon}
       </StyledIconButton>
-      <StyledIconButton onClick={onBackward} disabled={disablePrevious}>
+      <StyledIconButton
+        onClick={onBackward}
+        disabled={disablePrevious}
+        data-testid="prev-track-btn"
+      >
         <SkipPreviousRoundedIcon />
       </StyledIconButton>
       <StyledPlayButton onClick={onPlayPause} playing={playing} />
-      <StyledIconButton onClick={onForward} disabled={disableNext}>
+      <StyledIconButton onClick={onForward} disabled={disableNext} data-testid="next-track-btn">
         <SkipNextRoundedIcon />
       </StyledIconButton>
       <StyledIconButton onClick={onRepeat}>{repeatIcon}</StyledIconButton>
