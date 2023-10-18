@@ -8,11 +8,11 @@ import {
   TableBody,
 } from '@mui/material';
 import { EntityWithID } from '~/entities/shared';
-import { TableContext } from './useTableContext';
 import { unforward } from '~/utils/styling';
 import { TableProps } from './types';
 import SortHead from './SortHead';
 import { useTable } from './useTable';
+import { Fragment } from 'react';
 
 const StyledCell = styled(
   TableCell,
@@ -25,7 +25,7 @@ const Table = <T extends EntityWithID>(props: TableProps<T>) => {
   const { data, columns, sortColumn, onSort } = useTable(props);
 
   return (
-    <TableContext.Provider value={data}>
+    <Fragment>
       <SortHead columns={columns} onSort={onSort} sortColumn={sortColumn} />
       <TableContainer>
         <MuiTable data-testid="table">
@@ -58,7 +58,7 @@ const Table = <T extends EntityWithID>(props: TableProps<T>) => {
           </TableBody>
         </MuiTable>
       </TableContainer>
-    </TableContext.Provider>
+    </Fragment>
   );
 };
 

@@ -18,7 +18,9 @@ type ColumnsProp<T extends EntityWithID> = {
 
 export type TableProps<T extends EntityWithID> = {
   data: T[];
-  sortedCallback?: () => void;
+  /** If callback is sent, sorted data is sent there and re-render is in charge of outside component.
+      If not, re-render is done directly inside the Table (sorted data not available for outside component) */
+  sortedCallback?: (sortedData: T[]) => void;
 } & ColumnsProp<T>;
 
 export type SortHeadProps<T extends EntityWithID> = {

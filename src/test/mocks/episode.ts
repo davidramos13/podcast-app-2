@@ -9,6 +9,7 @@ const mockData = [
 
 export const mockTrack: Track = {
   episodeId: 7,
+  author: '',
   duration: 4400000,
   title: 'Track test 7',
   url: '',
@@ -24,6 +25,7 @@ export const mockTrackList: Track[] = (
   ] as [number, number][]
 ).map(([id, duration]) => ({
   episodeId: id,
+  author: '',
   duration: duration,
   title: `Track ${id}`,
   url: '',

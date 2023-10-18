@@ -1,10 +1,11 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { PlayerState, Repeat } from './types';
+import { RootState } from '..';
+import { Repeat } from './types';
 
 export const selectProgress = createSelector(
-  (player: PlayerState) => player.currentTime,
-  (player: PlayerState) => player.playlist,
-  (player: PlayerState) => player.currentIndex,
+  ({ player }: RootState) => player.currentTime,
+  ({ player }: RootState) => player.playlist,
+  ({ player }: RootState) => player.currentIndex,
   (currentTime, playlist, currentIndex) => {
     const { duration } = playlist[currentIndex];
     return { currentTime, duration };
@@ -12,24 +13,26 @@ export const selectProgress = createSelector(
 );
 
 export const selectTrack = createSelector(
-  (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.playlist,
+  ({ player }: RootState) => player.currentIndex,
+  ({ player }: RootState) => player.playlist,
   (currentIndex, playlist) => playlist[currentIndex],
 );
 
-export const selectPlayingEpisodeId = createSelector(
-  (player: PlayerState) => player.playing,
-  (player: PlayerState) => player.currentIndex,
-  (player: PlayerState) => player.playlist,
-  (playing, currentIndex, playlist) => (!playing ? 0 : playlist[currentIndex].episodeId),
+export const selectIsPlayingThisEpisode = createSelector(
+  ({ player }: RootState) => player.playing,
+  ({ player }: RootState) => player.currentIndex,
+  ({ player }: RootState) => player.playlist,
+  (_: RootState, episodeId: number) => episodeId,
+  (playing, currentIndex, playlist, episodeId) =>
+    !playing ? false : playlist[currentIndex].episodeId === episodeId,
 );
 
 export const selectPlayerControlsState = createSelector(
-  (player: PlayerState) => player.playing,
-  (player: PlayerState) => player.shuffle,
-  (player: PlayerState) => player.repeat,
-  (player: PlayerState) => player.playlist,
-  (player: PlayerState) => player.currentIndex,
+  ({ player }: RootState) => player.playing,
+  ({ player }: RootState) => player.shuffle,
+  ({ player }: RootState) => player.repeat,
+  ({ player }: RootState) => player.playlist,
+  ({ player }: RootState) => player.currentIndex,
   (playing, shuffle, repeat, playlist, currentIndex) => {
     const currentLast = currentIndex === playlist.length - 1;
 

@@ -9,7 +9,7 @@ const usePodcastSearch = () => {
   const dispatch = useAppDispatch();
   const [getPodcasts, { data, isLoading }] = useLazyGetPodcastsQuery();
 
-  const debounceCallback = useDebouncedCall((value: string) => getPodcasts(value));
+  const debounceCallback = useDebouncedCall((value: string) => getPodcasts(value, true));
 
   useEffect(() => {
     if (filter.length >= 3) {

@@ -4,14 +4,15 @@ import Table from '~/components/ui/Table';
 import { Column } from '~/components/ui/Table/types';
 import { Episode } from '~/entities';
 import { useAppDispatch } from '~/store';
-import { cleanList } from '~/store/player/slice';
+import { changeEpisodes } from '~/store/player/slice';
 import { calculateDuration, formatDateToNow } from '~/utils/dates';
-import { EpisodePlayerCell, TextCell, TitleCell } from './cells';
+import { TextCell, TitleCell } from './styledCells';
+import EpisodesPlayerCell from './EpisodesPlayerCell';
 
 const columns: Column<Episode>[] = [
   {
     name: '#',
-    content: episode => <EpisodePlayerCell episodeId={episode.id} />,
+    content: episode => <EpisodesPlayerCell episodeId={episode.id} />,
   },
   {
     name: 'Title',
@@ -42,7 +43,7 @@ const columns: Column<Episode>[] = [
 type Props = { data: Episode[] };
 const EpisodesTable: FC<Props> = ({ data }) => {
   const dispatch = useAppDispatch();
-  const onSortCallback = () => dispatch(cleanList());
+  const onSortCallback = (data: Episode[]) => dispatch(changeEpisodes(data));
 
   return <Table columns={columns} data={data} sortedCallback={onSortCallback} />;
 };

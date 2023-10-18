@@ -11,7 +11,7 @@ import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 
 import { useAppDispatch, useAppSelector } from '~/store';
-import { nextTrack, playPause, prevTrack, setRepeat, setShuffle } from '~/store/player/slice';
+import { nextTrack, play, prevTrack, setRepeat, setShuffle } from '~/store/player/slice';
 import PlayButton from '../ui/PlayButton';
 import { selectPlayerControlsState } from '~/store/player/selectors';
 import { Repeat } from '~/store/player/types';
@@ -27,12 +27,11 @@ const repeatIcons = {
 };
 
 const Controls = () => {
-  const { playing, shuffle, repeat, disableNext, disablePrevious, disableShuffle } = useAppSelector(
-    ({ player }) => selectPlayerControlsState(player),
-  );
   const dispatch = useAppDispatch();
+  const { playing, shuffle, repeat, disableNext, disablePrevious, disableShuffle } =
+    useAppSelector(selectPlayerControlsState);
 
-  const onPlayPause = () => dispatch(playPause());
+  const onPlay = () => dispatch(play());
   const onShuffle = () => dispatch(setShuffle());
   const onBackward = () => dispatch(prevTrack());
   const onForward = () => dispatch(nextTrack());
@@ -53,7 +52,7 @@ const Controls = () => {
       >
         <SkipPreviousRoundedIcon />
       </StyledIconButton>
-      <StyledPlayButton onClick={onPlayPause} playing={playing} />
+      <StyledPlayButton onPlay={onPlay} playing={playing} />
       <StyledIconButton onClick={onForward} disabled={disableNext} data-testid="next-track-btn">
         <SkipNextRoundedIcon />
       </StyledIconButton>

@@ -1,43 +1,35 @@
 import { Fragment, ReactNode } from 'react';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
-import { useNavigate, useParams } from 'react-router-dom';
 import usePodcastView from './usePodcastView';
 import { SearchBar } from '../ui';
 import EpisodesTable from './EpisodesTable';
 import Spinner from '../ui/Spinner';
 import Header from '../ui/Header';
-import { createPlayList } from '~/entities/track';
 import {
   DivTitleContainer,
   StyledPlayerCell,
   TitleText,
   BackButton,
   DivImage,
+  MainContainer,
 } from './PodcastView.styled';
 
 const PodcastView = () => {
-  const { podcastId } = useParams();
-  const navigate = useNavigate();
-
-  const id = parseInt(podcastId!) || 0;
-  const { podcast, episodes, isLoading, filter, setFilter } = usePodcastView(id);
-
-  const goBack = () => navigate(-1);
+  const { podcastFull, isLoading, filter, setFilter, goBack } = usePodcastView();
 
   let mainContent: ReactNode | null = null;
 
   if (isLoading) {
     mainContent = <Spinner />;
-  } else if (podcast && episodes?.length) {
-    const playlist = createPlayList(episodes);
+  } else if (podcastFull) {
     mainContent = (
-      <Fragment>
+      <MainContainer>
         <DivTitleContainer>
-          <StyledPlayerCell playlist={playlist} episodeId={playlist[0].episodeId} />
-          <TitleText>{podcast.name}</TitleText>
+          <StyledPlayerCell episodeId={podcastFull.episodes[0].id} />
+          <TitleText>{podcastFull.name}</TitleText>
         </DivTitleContainer>
-        <EpisodesTable data={episodes} />
-      </Fragment>
+        <EpisodesTable data={podcastFull.episodes} />
+      </MainContainer>
     );
   }
 

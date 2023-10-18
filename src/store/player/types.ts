@@ -1,4 +1,5 @@
 import { Track } from '~/entities';
+import { PodcastFull } from '~/entities/podcast';
 
 export enum Repeat {
   NO = 'NO',
@@ -13,6 +14,7 @@ export const getNextRepeat = (current: Repeat) => {
 };
 
 export type PlayerState = {
+  viewPodcast: PodcastFull | null;
   playlist: Track[];
   currentIndex: number;
   volume: number;

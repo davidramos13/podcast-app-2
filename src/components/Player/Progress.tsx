@@ -24,7 +24,7 @@ const getBarPercentage = (time = 0, duration = 0) => {
 };
 
 const Progress = () => {
-  const { currentTime, duration } = useAppSelector(({ player }) => selectProgress(player));
+  const { currentTime, duration } = useAppSelector(selectProgress);
 
   const startTime = calculateDuration(currentTime);
   const endTime = useMemo(() => calculateDuration(duration), [duration]);

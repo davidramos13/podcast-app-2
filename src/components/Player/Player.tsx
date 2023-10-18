@@ -13,9 +13,8 @@ const TextContainer = tw.div`flex flex-col mr-std leading-5`;
 const Text = tw(Typography)`leading-5`;
 
 const Player = () => {
-  const track = useAppSelector(({ player }) => selectTrack(player));
-  const podcast = useAppSelector(({ podcastSearch }) => podcastSearch.currentPodcast);
-  if (!track || !podcast) return null;
+  const track = useAppSelector(selectTrack);
+  if (!track) return null;
 
   return (
     <Slide direction="up" in={!!track} mountOnEnter unmountOnExit>
@@ -23,7 +22,7 @@ const Player = () => {
         <Img src={track.imageUrl} alt={track.title} />
         <TextContainer>
           <Text tw="text-white">{track.title}</Text>
-          <Text>{podcast.author}</Text>
+          <Text>{track.author}</Text>
         </TextContainer>
         <Controls />
         <Progress />

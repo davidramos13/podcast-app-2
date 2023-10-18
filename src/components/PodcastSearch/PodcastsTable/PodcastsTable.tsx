@@ -2,8 +2,6 @@ import { FC } from 'react';
 import { Table } from '~/components/ui';
 import { Column } from '~/components/ui/Table/types';
 import { Podcast } from '~/entities';
-import { useAppDispatch } from '~/store';
-import { cleanList } from '~/store/player/slice';
 import { formatDateToNow } from '~/utils/dates';
 import PodcastsPlayerCell from './PodcastsPlayerCell';
 import TitleCell from './TitleCell';
@@ -28,11 +26,6 @@ const columns: Column<Podcast>[] = [
 ];
 
 type Props = { data: Podcast[] };
-const PodcastsTable: FC<Props> = ({ data }) => {
-  const dispatch = useAppDispatch();
-  const onSortCallback = () => dispatch(cleanList());
-
-  return <Table columns={columns} data={data} sortedCallback={onSortCallback} />;
-};
+const PodcastsTable: FC<Props> = ({ data }) => <Table columns={columns} data={data} />;
 
 export default PodcastsTable;
