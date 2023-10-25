@@ -12,7 +12,7 @@ import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 
 import { useAppDispatch, useAppSelector } from '~/store';
 import { nextTrack, play, prevTrack, setRepeat, setShuffle } from '~/store/player/slice';
-import PlayButton from '../ui/PlayButton';
+import PlayButton from '~/components/ui/PlayButton';
 import { selectPlayerControlsState } from '~/store/player/selectors';
 import { Repeat } from '~/store/player/types';
 
@@ -21,9 +21,9 @@ const StyledPlayButton = tw(PlayButton)`w-[50px] h-[50px]`;
 const StyledIconButton = tw(IconButton)`w-10 h-10`;
 
 const repeatIcons = {
-  [Repeat.NO]: <RepeatRoundedIcon />,
-  [Repeat.ALL]: <RepeatOnRoundedIcon />,
-  [Repeat.ONE]: <RepeatOneOnRoundedIcon />,
+  [Repeat.NO]: <RepeatRoundedIcon data-testid="repeat-no" />,
+  [Repeat.ALL]: <RepeatOnRoundedIcon data-testid="repeat-all" />,
+  [Repeat.ONE]: <RepeatOneOnRoundedIcon data-testid="repeat-one" />,
 };
 
 const Controls = () => {
@@ -37,12 +37,16 @@ const Controls = () => {
   const onForward = () => dispatch(nextTrack());
   const onRepeat = () => dispatch(setRepeat());
 
-  const shuffleIcon = shuffle ? <ShuffleOnRoundedIcon /> : <ShuffleRoundedIcon />;
+  const shuffleIcon = shuffle ? (
+    <ShuffleOnRoundedIcon data-testid="shuffle-on" />
+  ) : (
+    <ShuffleRoundedIcon data-testid="shuffle-off" />
+  );
   const repeatIcon = repeatIcons[repeat];
 
   return (
     <DivContainer>
-      <StyledIconButton onClick={onShuffle} disabled={disableShuffle}>
+      <StyledIconButton onClick={onShuffle} disabled={disableShuffle} data-testid="shuffle-btn">
         {shuffleIcon}
       </StyledIconButton>
       <StyledIconButton
@@ -56,7 +60,9 @@ const Controls = () => {
       <StyledIconButton onClick={onForward} disabled={disableNext} data-testid="next-track-btn">
         <SkipNextRoundedIcon />
       </StyledIconButton>
-      <StyledIconButton onClick={onRepeat}>{repeatIcon}</StyledIconButton>
+      <StyledIconButton onClick={onRepeat} data-testid="repeat-btn">
+        {repeatIcon}
+      </StyledIconButton>
     </DivContainer>
   );
 };

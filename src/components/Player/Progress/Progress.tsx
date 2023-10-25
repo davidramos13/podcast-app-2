@@ -18,7 +18,7 @@ const BarProgress = styled(LinearProgress)(() => [
 const Text = tw(Typography)`w-14`;
 
 const getBarPercentage = (time = 0, duration = 0) => {
-  if (!duration || !time) return 0;
+  if (!duration) return 0;
   const percentage = Math.round((time / duration) * 1000) / 10;
   return percentage;
 };
@@ -33,7 +33,7 @@ const Progress = () => {
   return (
     <DivContainer>
       <Text>{startTime}</Text>
-      <BarProgress variant="determinate" value={percentage} />
+      <BarProgress variant="determinate" value={percentage} data-testid="progress-bar" />
       <Text tw="text-white">{endTime}</Text>
     </DivContainer>
   );

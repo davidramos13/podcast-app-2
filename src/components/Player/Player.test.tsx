@@ -2,9 +2,9 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupStore } from '~/store';
 import { render } from '~/test/renderUtils';
-import { mockTrack, mockTrackList } from '~/test/mocks/episode';
 import Player from '.';
 import { AudioMiddleware } from '~/store/player/audioMiddleware';
+import { getState, withTrackIds } from '~/test/mocks/player';
 
 vi.mock('~/store/player/audioMiddleware', () => {
   const mockMiddleware: AudioMiddleware = () => next => action => next(action);
@@ -12,59 +12,30 @@ vi.mock('~/store/player/audioMiddleware', () => {
 });
 
 const testIds = {
-  playPauseButton: 'play-pause-button',
-  playIcon: 'play-icon',
-  pauseIcon: 'pause-icon',
   prevTrackBtn: 'prev-track-btn',
   nextTrackBtn: 'next-track-btn',
-};
-
-const baseState = {
-  player: {
-    playlist: [mockTrack],
-    currentIndex: 0,
-    playing: false,
-    volume: 50,
-  },
-  podcastSearch: {
-    currentPodcast: {
-      author: 'Random author',
-    },
-  },
+  progressBar: 'progress-bar',
 };
 
 describe('Player', () => {
   it('should render Player component', () => {
-    const store = setupStore({ ...baseState });
+    const store = setupStore(getState(withTrackIds(7)));
     render(<Player />, store);
 
-    const title = screen.queryByText('Track test 7'); // from mockTrack
+    const title = screen.queryByText('Track 7'); // from mockTrack
     expect(title).toBeInTheDocument();
   });
 
-  it('should toggle Play Pause', async () => {
-    const store = setupStore({ ...baseState });
+  it('should not render if no track loaded', () => {
+    const store = setupStore(getState({}));
     render(<Player />, store);
 
-    const icon1 = screen.queryByTestId(testIds.playIcon);
-    expect(icon1).toBeInTheDocument();
-
-    const playPauseButton = screen.getByTestId(testIds.playPauseButton);
-    await userEvent.click(playPauseButton);
-
-    const icon2 = screen.queryByTestId(testIds.pauseIcon);
-    expect(icon2).toBeInTheDocument();
-    await userEvent.click(playPauseButton);
-
-    const icon3 = screen.queryByTestId(testIds.playIcon);
-    expect(icon3).toBeInTheDocument();
+    const title = screen.queryByText('Track 7');
+    expect(title).not.toBeInTheDocument();
   });
 
   it('should move forward and backward', async () => {
-    const store = setupStore({
-      ...baseState,
-      player: { playlist: mockTrackList, currentIndex: 1 },
-    });
+    const store = setupStore(getState({ ...withTrackIds(11, 12, 13, 14), currentIndex: 1 })); // Track ID 12 is selected first
     render(<Player />, store);
 
     const prevBtn = screen.getByTestId(testIds.prevTrackBtn);

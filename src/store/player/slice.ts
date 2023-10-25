@@ -5,7 +5,7 @@ import changeTrack from './reducers/changeTrack';
 import playReducer, { PlayPayload } from './reducers/play';
 import { getNextRepeat, PlayerState, Repeat } from './types';
 
-const initialState: PlayerState = {
+export const initialState: PlayerState = {
   viewPodcast: null,
   playlist: [],
   currentIndex: -1,
