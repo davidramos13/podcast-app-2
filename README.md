@@ -1,4 +1,4 @@
-# Podcast App - Frontend Challenge for Inditex (Image)
+# Podcast App - Frontend Challenge
 
 This repo covers all requirements set for the challenge. It features:
 
@@ -7,8 +7,6 @@ This repo covers all requirements set for the challenge. It features:
 - Vite for bundling
 - MUI 5 & twin.macro (CSS-in-JS & Tailwind)
 - Unit testing (Vitest)
-
-I am satisfied with the current work so this is ready to be reviewed and evaluated. But I will keep making some subtle improvements around with less priority.
 
 ## Instructions
 

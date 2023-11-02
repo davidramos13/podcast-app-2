@@ -1,5 +1,5 @@
 {
-  "name": "vite-emotion-typescript",
+  "name": "podcast-app",
   "type": "module",
   "babelMacros": {
     "twin": {
