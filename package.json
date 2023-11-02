@@ -1,5 +1,5 @@
 {
-  "name": "vite-emotion-typescript",
+  "name": "podcast-app",
   "type": "module",
   "babelMacros": {
     "twin": {
@@ -7,15 +7,15 @@
     }
   },
   "scripts": {
-    "dev": "NODE_ENV=development vite",
-    "build": "tsc && vite build",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
     "lint": "eslint .",
     "start": "npm run dev",
     "tsc": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
     "coverage": "vitest run --coverage",
-    "serve": "vite preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -25,6 +25,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.5.1",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.4.5",
     "lodash.debounce": "^4.0.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

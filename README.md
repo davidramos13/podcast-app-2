@@ -1,14 +1,12 @@
-# Podcast App - Frontend Challenge for Inditex (Image)
+# Podcast App - Frontend Challenge
 
 This repo covers all requirements set for the challenge. It features:
 
 - React with Typescript
-- Redux Toolkit / RTK Query
+- ~~Redux Toolkit / RTK Query~~ -> replaced with @tanstack/query on v2, check v1 for Redux version
 - Vite for bundling
 - MUI 5 & twin.macro (CSS-in-JS & Tailwind)
 - Unit testing (Vitest)
-
-I am satisfied with the current work so this is ready to be reviewed and evaluated. But I will keep making some subtle improvements around with less priority.
 
 ## Instructions
 
@@ -26,6 +24,8 @@ npm run serve
 ```
 
 ---
+
+IMPORTANT: the endpoint used to retrieve apple podcasts uses a CORS Proxy, which may not work if you run this inside a corporate network.
 
 ### Some decisions I took:
 
