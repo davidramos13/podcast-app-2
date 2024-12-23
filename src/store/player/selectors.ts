@@ -1,45 +1,26 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '..';
-import { Repeat } from './types';
+import { PlayerSlice, Repeat } from './types';
 
-export const selectProgress = createSelector(
-  ({ player }: RootState) => player.currentTime,
-  ({ player }: RootState) => player.playlist,
-  ({ player }: RootState) => player.currentIndex,
-  (currentTime, playlist, currentIndex) => {
-    const { duration } = playlist[currentIndex];
-    return { currentTime, duration };
-  },
-);
+export const selectTrack = ({ playlist, currentIndex }: PlayerSlice) => playlist[currentIndex];
 
-export const selectTrack = createSelector(
-  ({ player }: RootState) => player.currentIndex,
-  ({ player }: RootState) => player.playlist,
-  (currentIndex, playlist) => playlist[currentIndex],
-);
+export const selectProgress = (slice: PlayerSlice) => {
+  const { duration } = selectTrack(slice);
+  const { currentTime } = slice;
+  return { currentTime, duration };
+};
 
-export const selectIsPlayingThisEpisode = createSelector(
-  ({ player }: RootState) => player.playing,
-  ({ player }: RootState) => player.currentIndex,
-  ({ player }: RootState) => player.playlist,
-  (_: RootState, episodeId: number) => episodeId,
-  (playing, currentIndex, playlist, episodeId) =>
-    !playing ? false : playlist[currentIndex].episodeId === episodeId,
-);
+export const selectIsPlayingThisEpisode = (slice: PlayerSlice, episodeId: number) => {
+  const track = selectTrack(slice);
+  const { playing } = slice;
+  return !playing ? false : track.episodeId === episodeId;
+};
 
-export const selectPlayerControlsState = createSelector(
-  ({ player }: RootState) => player.playing,
-  ({ player }: RootState) => player.shuffle,
-  ({ player }: RootState) => player.repeat,
-  ({ player }: RootState) => player.playlist,
-  ({ player }: RootState) => player.currentIndex,
-  (playing, shuffle, repeat, playlist, currentIndex) => {
-    const currentLast = currentIndex === playlist.length - 1;
+export const selectPlayerControlsState = (slice: PlayerSlice) => {
+  const { currentIndex, playing, shuffle, repeat, playlist } = slice;
+  const currentLast = currentIndex === playlist.length - 1;
 
-    const disableShuffle = playlist.length < 2;
-    const disableNext = currentLast && repeat === Repeat.NO;
-    const disablePrevious = shuffle || (currentIndex === 0 && repeat === Repeat.NO);
+  const disableShuffle = playlist.length < 2;
+  const disableNext = currentLast && repeat === Repeat.NO;
+  const disablePrevious = shuffle || (currentIndex === 0 && repeat === Repeat.NO);
 
-    return { playing, shuffle, repeat, disableShuffle, disableNext, disablePrevious };
-  },
-);
+  return { playing, shuffle, repeat, disableShuffle, disableNext, disablePrevious };
+};

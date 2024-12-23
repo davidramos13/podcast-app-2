@@ -1,33 +1,25 @@
-import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import episodesApi from './episodesApi';
-import audioMiddleware from './player/audioMiddleware';
-import playerSlice from './player/slice';
-import podcastsApi from './podcastsApi';
-import podcastSearchSlice from './podcastSearchSlice';
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { GetState, StoreState } from './types';
+import { PlayerSlice } from './player/types';
+import { createPlayerSlice } from './player';
+import createSearchSlice from './createSearchSlice';
+import audio from './player/AudioControl';
+import { selectTrack } from './player/selectors';
 
-const rootReducer = combineReducers({
-  podcasts: podcastsApi.reducer,
-  episodes: episodesApi.reducer,
-  player: playerSlice.reducer,
-  podcastSearch: podcastSearchSlice.reducer,
-});
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-export const setupStore = <T extends object>(preloadedState?: PreloadedState<T>) => {
-  const store = configureStore({
-    reducer: rootReducer,
-    preloadedState,
-    middleware: gdm =>
-      gdm().prepend(audioMiddleware).concat(podcastsApi.middleware).concat(episodesApi.middleware),
-  });
-
-  return store;
+const initParams = (get: GetState<PlayerSlice>) => {
+  const slice = get();
+  const { setCurrentTime: setTime, stop, nextTrack, volume } = slice;
+  const getTrack = () => selectTrack(slice);
+  return { setTime, stop, nextTrack, volume, getTrack };
 };
 
-export type StoreType = ReturnType<typeof setupStore>;
-export type AppDispatch = StoreType['dispatch'];
-
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useStore = create<StoreState>()(
+  devtools((set, get, api) => {
+    audio.init(initParams(get));
+    return {
+      ...createPlayerSlice(set, get, api),
+      ...createSearchSlice(set, get, api),
+    };
+  }),
+);

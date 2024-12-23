@@ -1,5 +1,4 @@
-import { Track } from '~/entities';
-import { PodcastFull } from '~/entities/podcast';
+import { Episode, PodcastFull, Track } from '~/entities';
 
 export enum Repeat {
   NO = 'NO',
@@ -7,11 +6,7 @@ export enum Repeat {
   ONE = 'ONE',
 }
 
-const repeatOrder = [Repeat.NO, Repeat.ALL, Repeat.ONE];
-export const getNextRepeat = (current: Repeat) => {
-  const index = repeatOrder.findIndex(x => x === current);
-  return index === 2 ? repeatOrder[0] : repeatOrder[index + 1];
-};
+export type PlayPayload = { episodeId?: number; podcastFull?: PodcastFull };
 
 export type PlayerState = {
   viewPodcast: PodcastFull | null;
@@ -23,3 +18,19 @@ export type PlayerState = {
   repeat: Repeat;
   shuffle: boolean;
 };
+
+export type PlayerActions = {
+  play(payload?: PlayPayload): void;
+  pause(): void;
+  stop(): void;
+  nextTrack(): void;
+  prevTrack(): void;
+  setCurrentTime(time: number): void;
+  setRepeat(): void;
+  setShuffle(): void;
+  setVolume(volume: number): void;
+  changeEpisodes(episodes: Episode[]): void;
+  clearPodcast(): void;
+};
+
+export type PlayerSlice = PlayerState & PlayerActions;
