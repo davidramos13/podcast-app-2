@@ -1,7 +1,7 @@
 import { PlayerState, Repeat } from './types';
 
 export const initial: PlayerState = {
-  viewPodcast: null,
+  activePodcast: false,
   playlist: [],
   currentIndex: -1,
   volume: 50,

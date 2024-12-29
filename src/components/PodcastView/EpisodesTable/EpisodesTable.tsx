@@ -3,8 +3,6 @@ import tw from 'twin.macro';
 import Table from '~/components/ui/Table';
 import { Column } from '~/components/ui/Table/types';
 import { Episode } from '~/entities';
-import { useAppDispatch } from '~/store';
-import { changeEpisodes } from '~/store/player/slice';
 import { calculateDuration, formatDateToNow } from '~/utils/dates';
 import { TextCell, TitleCell } from './styledCells';
 import EpisodesPlayerCell from './EpisodesPlayerCell';
@@ -42,8 +40,11 @@ const columns: Column<Episode>[] = [
 
 type Props = { data: Episode[] };
 const EpisodesTable: FC<Props> = ({ data }) => {
-  const dispatch = useAppDispatch();
-  const onSortCallback = (data: Episode[]) => dispatch(changeEpisodes(data));
+  // const { changeEpisodes } = useAppStore(({ changeEpisodes }) => ({ changeEpisodes }));
+  const onSortCallback = (data: Episode[]) => {
+    console.log(data);
+    debugger;
+  }; // changeEpisodes(data);
 
   return <Table columns={columns} data={data} sortedCallback={onSortCallback} />;
 };

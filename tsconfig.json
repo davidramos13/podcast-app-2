@@ -29,6 +29,10 @@
     "src",
     "types"
   ],
+  "exclude": [
+    "src/test/**/*",
+    "**/*.test.tsx"
+  ],
   "references": [
     {
       "path": "./tsconfig.node.json"

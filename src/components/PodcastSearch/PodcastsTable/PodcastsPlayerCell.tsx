@@ -1,23 +1,32 @@
 import { CircularProgress } from '@mui/material';
+import { useQuery } from '@tanstack/react-query';
 import { FC, memo, useCallback } from 'react';
 import { PlayerCell } from '~/components/Player';
-import { useAppDispatch } from '~/store';
-import { useLazyGetLastPodcastEpisodeQuery } from '~/store/episodesApi';
-import { play } from '~/store/player/slice';
+import { useShallowAppStore } from '~/store';
+import { fetchLastPodcastEpisode } from '~/store/episodesApi';
 
 type Props = { podcastId: number };
 const PodcastsPlayerCell: FC<Props> = ({ podcastId }) => {
-  const [getEpisode, { data: podcastFull, isLoading }] = useLazyGetLastPodcastEpisodeQuery();
-  const dispatch = useAppDispatch();
+  const play = useShallowAppStore(state => state.play);
+  const {
+    data: podcastFull,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ['lastPodcastEpisode', podcastId],
+    queryFn: () => fetchLastPodcastEpisode(podcastId),
+    enabled: false,
+  });
+
   const episodeId = podcastFull ? podcastFull.episodes[0].id : 0;
 
   const onPlay = useCallback(() => {
     if (!podcastFull) {
-      getEpisode(podcastId, true);
+      refetch();
     } else {
-      dispatch(play({ podcastFull }));
+      play({ podcastFull });
     }
-  }, [dispatch, getEpisode, podcastFull, podcastId]);
+  }, []);
 
   if (isLoading) return <CircularProgress />;
   return <PlayerCell episodeId={episodeId} onPlay={onPlay} />;

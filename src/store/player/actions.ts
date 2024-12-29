@@ -39,9 +39,9 @@ const actions = (set: SetState<PlayerSlice>, get: GetState<PlayerSlice>): Player
     set({ volume });
     audio.setVolume(volume);
   },
-  changeEpisodes: (episodes: Episode[]) =>
-    set(state => (!state.viewPodcast ? {} : { viewPodcast: { ...state.viewPodcast, episodes } })),
-  clearPodcast: () => set({ viewPodcast: null }),
+  // changeEpisodes: (episodes: Episode[]) =>
+  //   set(state => (!state.viewPodcast ? {} : { viewPodcast: { ...state.viewPodcast, episodes } })),
+  clearPodcast: () => set({ activePodcast: false }),
 });
 
 export default actions;

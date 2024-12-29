@@ -4,8 +4,7 @@ import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import tw, { styled } from 'twin.macro';
 import { unforward } from '~/utils/styling';
-import { useAppDispatch } from '~/store';
-import { pause } from '~/store/player/slice';
+import { useShallowAppStore } from '~/store';
 
 const TwIconButton = styled(
   IconButton,
@@ -14,11 +13,11 @@ const TwIconButton = styled(
 
 type Props = { playing: boolean; onPlay: () => void };
 const PlayButton: FC<Props> = ({ playing, onPlay, ...props }) => {
-  const dispatch = useAppDispatch();
+  const pause = useShallowAppStore(state => state.pause);
 
   const onInternalClick = () => {
     if (playing) {
-      dispatch(pause());
+      pause();
     } else {
       onPlay();
     }

@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import axios from 'axios';
 import { PodcastFull } from '~/entities/podcast';
 import { BASEURL, getEncodedUrl } from '~/utils/constants';
 import { ITunesResults, transformITunesResults } from '~/utils/itunes';
@@ -28,29 +28,16 @@ const transformEpisodes = (apiResults: ITunesResults): PodcastFull => {
   return podcastFull;
 };
 
-const episodesApi = createApi({
-  reducerPath: 'episodes',
-  baseQuery: fetchBaseQuery({ baseUrl: BASEURL }),
-  tagTypes: ['Podcast'],
-  endpoints: builder => ({
-    getEpisodes: builder.query({
-      query: (podcastId: number) => ({
-        url: getEncodedUrl(`lookup?id=${podcastId}&entity=podcastEpisode&limit=20`),
-        method: 'GET',
-      }),
-      transformResponse: transformEpisodes,
-    }),
-    getLastPodcastEpisode: builder.query({
-      query: (podcastId: number) => ({
-        url: getEncodedUrl(`lookup?id=${podcastId}&entity=podcastEpisode&limit=1`),
-        method: 'GET',
-      }),
-      providesTags: (_1, _2, podcastId) => [{ type: 'Podcast', id: podcastId }],
-      transformResponse: (apiResults: ITunesResults) => transformEpisodes(apiResults),
-    }),
-  }),
-});
+export const fetchEpisodes = async (podcastId: number) => {
+  const { data } = await axios.get<ITunesResults>(
+    `${BASEURL}${getEncodedUrl(`lookup?id=${podcastId}&entity=podcastEpisode&limit=20`)}`,
+  );
+  return transformEpisodes(data);
+};
 
-export const { useGetEpisodesQuery, useLazyGetLastPodcastEpisodeQuery } = episodesApi;
-
-export default episodesApi;
+export const fetchLastPodcastEpisode = async (podcastId: number) => {
+  const { data } = await axios.get<ITunesResults>(
+    `${BASEURL}${getEncodedUrl(`lookup?id=${podcastId}&entity=podcastEpisode&limit=1`)}`,
+  );
+  return transformEpisodes(data);
+};

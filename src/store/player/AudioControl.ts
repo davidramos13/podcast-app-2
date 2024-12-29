@@ -16,6 +16,7 @@ class AudioControl extends Audio {
   }
 
   init(params: InitParams) {
+    debugger;
     const { getTrack, setTime, stop, nextTrack, volume } = params;
     this.addEventListener('timeupdate', () => {
       const track = getTrack();

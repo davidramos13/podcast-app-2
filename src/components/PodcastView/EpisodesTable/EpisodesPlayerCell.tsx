@@ -1,15 +1,12 @@
 import { FC, memo } from 'react';
 import { PlayerCell } from '~/components/Player';
-import { useAppDispatch } from '~/store';
-import { play } from '~/store/player/slice';
+import { useShallowAppStore } from '~/store';
 
 type Props = { episodeId: number };
 const EpisodesPlayerCell: FC<Props> = ({ episodeId, ...props }) => {
-  const dispatch = useAppDispatch();
+  const play = useShallowAppStore(state => state.play);
 
-  const onPlay = () => {
-    dispatch(play({ episodeId }));
-  };
+  const onPlay = () => play({ episodeId });
 
   return <PlayerCell episodeId={episodeId} onPlay={onPlay} {...props} />;
 };

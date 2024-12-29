@@ -1,25 +1,42 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { GetState, StoreState } from './types';
+import { StoreState } from './types';
 import { PlayerSlice } from './player/types';
 import { createPlayerSlice } from './player';
 import createSearchSlice from './createSearchSlice';
 import audio from './player/AudioControl';
 import { selectTrack } from './player/selectors';
+import { useShallow } from 'zustand/shallow';
 
-const initParams = (get: GetState<PlayerSlice>) => {
-  const slice = get();
+const initParams = (slice: PlayerSlice) => {
   const { setCurrentTime: setTime, stop, nextTrack, volume } = slice;
   const getTrack = () => selectTrack(slice);
   return { setTime, stop, nextTrack, volume, getTrack };
 };
 
-export const useStore = create<StoreState>()(
+export const useAppStore = create<StoreState>()(
   devtools((set, get, api) => {
-    audio.init(initParams(get));
-    return {
+    const store = {
       ...createPlayerSlice(set, get, api),
       ...createSearchSlice(set, get, api),
     };
+    audio.init(initParams(store));
+    return store;
   }),
 );
+
+// type PickState<T, K extends keyof T> = Pick<T, K>;
+type PickState = Pick<StoreState, keyof StoreState>;
+export function useShallowAppStore<K extends keyof StoreState>(keys: K[]): PickState;
+export function useShallowAppStore<T>(selector: (state: StoreState) => T): T;
+
+export function useShallowAppStore<K extends keyof StoreState>(
+  arg: K[] | ((state: StoreState) => unknown),
+) {
+  const selector = Array.isArray(arg)
+    ? (state: StoreState) =>
+        arg.reduce((acc, key) => ({ ...acc, [key]: state[key] }), {} as PickState)
+    : arg;
+
+  return useAppStore(useShallow(selector));
+}

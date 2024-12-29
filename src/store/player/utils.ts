@@ -19,9 +19,9 @@ export const play = (state: PlayerState, payload: PlayPayload = {}) => {
     return newState;
   }
 
-  if (!episodeId || !state.viewPodcast) return newState;
+  if (!episodeId || !state.activePodcast) return newState;
 
-  newState.playlist = createPlayList(state.viewPodcast);
+  // newState.playlist = createPlayList(state.viewPodcast);
   newState.currentIndex = state.playlist.findIndex(x => x.episodeId === episodeId);
   return newState;
 };

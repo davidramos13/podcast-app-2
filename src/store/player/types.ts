@@ -9,7 +9,7 @@ export enum Repeat {
 export type PlayPayload = { episodeId?: number; podcastFull?: PodcastFull };
 
 export type PlayerState = {
-  viewPodcast: PodcastFull | null;
+  activePodcast: boolean;
   playlist: Track[];
   currentIndex: number;
   volume: number;
@@ -29,7 +29,7 @@ export type PlayerActions = {
   setRepeat(): void;
   setShuffle(): void;
   setVolume(volume: number): void;
-  changeEpisodes(episodes: Episode[]): void;
+  //  changeEpisodes(episodes: Episode[]): void;
   clearPodcast(): void;
 };
 
