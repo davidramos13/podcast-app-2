@@ -1,16 +1,13 @@
-import { StateCreator, StoreApi } from 'zustand';
+import { StateCreator } from 'zustand';
 import { PlayerSlice } from './player/types';
 import { SearchSlice } from './createSearchSlice';
 
 // Generic Types
 
-export type SetState<T> = Parameters<StateCreator<T>>[0];
-export type GetState<T> = Parameters<StateCreator<T>>[1];
+export type StateCreatorFull<T> = StateCreator<T, [['zustand/devtools', never]], []>;
 
-export type Middleware<T> = (
-  config: StateCreator<T>,
-) => (set: SetState<T>, get: GetState<T>, api: StoreApi<T>) => T;
-
-// Store Full Type
+export type SetState<T> = Parameters<StateCreatorFull<T>>[0];
+export type GetState<T> = Parameters<StateCreatorFull<T>>[1];
 
 export type StoreState = PlayerSlice & SearchSlice;
+export type IDType = { id: number };

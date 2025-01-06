@@ -12,17 +12,16 @@ export const play = (state: PlayerState, payload: PlayPayload = {}) => {
   const newState: Partial<PlayerState> = { playing: true };
   const { episodeId, podcastFull } = payload;
 
-  if (podcastFull) {
+  if (!podcastFull) return newState;
+
+  if (episodeId) {
+    newState.playlist = createPlayList(podcastFull);
+    newState.currentIndex = newState.playlist.findIndex(x => x.episodeId === episodeId);
+  } else {
     const track = mapTrack(podcastFull.episodes[0], podcastFull.author);
     newState.playlist = [track];
     newState.currentIndex = 0;
-    return newState;
   }
-
-  if (!episodeId || !state.activePodcast) return newState;
-
-  // newState.playlist = createPlayList(state.viewPodcast);
-  newState.currentIndex = state.playlist.findIndex(x => x.episodeId === episodeId);
   return newState;
 };
 

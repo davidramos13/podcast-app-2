@@ -1,16 +1,16 @@
 import { CircularProgress } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
-import { FC, memo, useCallback } from 'react';
+import { memo, useCallback } from 'react';
 import { PlayerCell } from '~/components/Player';
 import { useShallowAppStore } from '~/store';
 import { fetchLastPodcastEpisode } from '~/store/episodesApi';
 
 type Props = { podcastId: number };
-const PodcastsPlayerCell: FC<Props> = ({ podcastId }) => {
+function PodcastsPlayerCell({ podcastId }: Props) {
   const play = useShallowAppStore(state => state.play);
   const {
     data: podcastFull,
-    isLoading,
+    isFetching,
     refetch,
   } = useQuery({
     queryKey: ['lastPodcastEpisode', podcastId],
@@ -20,16 +20,17 @@ const PodcastsPlayerCell: FC<Props> = ({ podcastId }) => {
 
   const episodeId = podcastFull ? podcastFull.episodes[0].id : 0;
 
-  const onPlay = useCallback(() => {
-    if (!podcastFull) {
-      refetch();
-    } else {
-      play({ podcastFull });
+  const onPlay = useCallback(async () => {
+    let podcast = podcastFull;
+    if (!podcast) {
+      const { data } = await refetch();
+      podcast = data;
     }
+    play({ podcastFull: podcast });
   }, []);
 
-  if (isLoading) return <CircularProgress />;
+  if (isFetching) return <CircularProgress />;
   return <PlayerCell episodeId={episodeId} onPlay={onPlay} />;
-};
+}
 
 export default memo(PodcastsPlayerCell);

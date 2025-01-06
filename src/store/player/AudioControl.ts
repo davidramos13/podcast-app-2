@@ -1,7 +1,6 @@
 import { Track } from '~/entities';
 
 type InitParams = {
-  getTrack: () => Track;
   setTime: (time: number) => void;
   stop: () => void;
   nextTrack: () => void;
@@ -16,15 +15,14 @@ class AudioControl extends Audio {
   }
 
   init(params: InitParams) {
-    debugger;
-    const { getTrack, setTime, stop, nextTrack, volume } = params;
+    const { setTime, stop, nextTrack, volume } = params;
     this.addEventListener('timeupdate', () => {
-      const track = getTrack();
-      if (!track || !track.duration) return;
+      if (!this.track || !this.track.duration) return;
       setTime(this.currentTime);
     });
 
-    this.addEventListener('error', () => {
+    this.addEventListener('error', event => {
+      console.error('Audio error:', (event.target as AudioControl).error);
       stop();
     });
 
@@ -59,15 +57,17 @@ class AudioControl extends Audio {
     this.src = src.url;
   }
 
-  playTrack(fromStart: boolean, params: { track: Track; stopAction: () => void }) {
-    const { track, stopAction } = params;
+  playTrack(fromStart: boolean, params: { track: Track }) {
+    const { track } = params;
     if (!track) {
       this.clear();
       return;
     }
 
     this.setSrc(track, fromStart);
-    this.play().catch(() => stopAction());
+    this.play().catch(e => {
+      console.error(e);
+    });
   }
 
   setVolume(volume: number) {

@@ -1,1 +1,1 @@
-export { default } from './PodcastsTable';
+export { default } from './columns';

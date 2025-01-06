@@ -9,13 +9,13 @@ import {
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
 import SearchIcon from '@mui/icons-material/Search';
 import tw from 'twin.macro';
-import { EntityWithID } from '~/entities/shared';
 import { SortHeadProps } from './types';
+import { IDType } from '~/store/types';
 
 const DivContainer = tw.div`py-2.5 h-[60px] flex gap-2 justify-end items-center`;
 const TwInputBase = tw(InputBase)`w-32 h-10 items-center text-white`;
 
-const SortHead = <T extends EntityWithID>(props: SortHeadProps<T>) => {
+const SortHead = <T extends IDType>(props: SortHeadProps<T>) => {
   const { columns, onSort, sortColumn } = props;
   const colNames = columns.filter(c => c.sortableContent).map(c => c.name);
 

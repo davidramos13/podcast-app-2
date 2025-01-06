@@ -1,5 +1,3 @@
-import { FC } from 'react';
-import { Table } from '~/components/ui';
 import { Column } from '~/components/ui/Table/types';
 import { Podcast } from '~/entities';
 import { formatDateToNow } from '~/utils/dates';
@@ -25,7 +23,4 @@ const columns: Column<Podcast>[] = [
   },
 ];
 
-type Props = { data: Podcast[] };
-const PodcastsTable: FC<Props> = ({ data }) => <Table columns={columns} data={data} />;
-
-export default PodcastsTable;
+export default columns;

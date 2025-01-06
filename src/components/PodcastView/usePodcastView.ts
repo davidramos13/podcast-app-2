@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PodcastFull } from '~/entities/podcast';
+import { useShallowAppStore } from '~/store';
 import { fetchEpisodes } from '~/store/episodesApi';
 
 const usePodcastView = () => {
@@ -15,22 +16,10 @@ const usePodcastView = () => {
     queryFn: () => fetchEpisodes(id),
     enabled: id > 0,
   });
-  // const data = useAppSelector(({ player }) => player.viewPodcast);
 
   const goBack = () => navigate(-1);
 
-  const filterValue = filter.toLowerCase();
-
-  let podcastFull: PodcastFull | null = null;
-  if (data) {
-    const { episodes, ...podcast } = data;
-    podcastFull = {
-      ...podcast,
-      episodes: episodes.filter(x => x.title.toLowerCase().includes(filterValue)),
-    };
-  }
-
-  return { isLoading, podcastFull, filter, setFilter, goBack };
+  return { isLoading, podcastFull: data, filter, setFilter, goBack };
 };
 
 export default usePodcastView;

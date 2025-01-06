@@ -1,4 +1,4 @@
-import { Episode, PodcastFull, Track } from '~/entities';
+import { PodcastFull, Track } from '~/entities';
 
 export enum Repeat {
   NO = 'NO',
@@ -9,7 +9,6 @@ export enum Repeat {
 export type PlayPayload = { episodeId?: number; podcastFull?: PodcastFull };
 
 export type PlayerState = {
-  activePodcast: boolean;
   playlist: Track[];
   currentIndex: number;
   volume: number;
@@ -29,8 +28,6 @@ export type PlayerActions = {
   setRepeat(): void;
   setShuffle(): void;
   setVolume(volume: number): void;
-  //  changeEpisodes(episodes: Episode[]): void;
-  clearPodcast(): void;
 };
 
 export type PlayerSlice = PlayerState & PlayerActions;

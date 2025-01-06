@@ -18,11 +18,11 @@ const usePodcastSearch = () => {
     return () => {
       debounceCallback.cancel();
     };
-  }, [debounceCallback]);
+  }, []);
 
   const onChangeFilter = (value: string) => {
     setFilter(value);
-    if (filter.length >= 3) {
+    if (value.length >= 3) {
       debounceCallback();
     }
   };

@@ -1,12 +1,8 @@
 import { useMemo, useState } from 'react';
-import { EntityWithID } from '~/entities/shared';
 import { Column, TableProps } from './types';
+import { IDType } from '~/store/types';
 
-const sortData = <T extends EntityWithID>(
-  data: T[],
-  columns: Column<T>[],
-  sortColumn: string,
-): T[] => {
+const sortData = <T extends IDType>(data: T[], columns: Column<T>[], sortColumn: string): T[] => {
   if (!sortColumn) return data;
   const sortedData = [...data].sort((a, b) => {
     const column = columns.find(c => c.name === sortColumn);
@@ -22,7 +18,7 @@ const sortData = <T extends EntityWithID>(
   return sortedData;
 };
 
-export const useTable = <T extends EntityWithID>(props: TableProps<T>) => {
+export const useTable = <T extends IDType>(props: TableProps<T>) => {
   const { data: initialData, columns, sortedCallback } = props;
   const [sortColumn, setSortColumn] = useState('');
 

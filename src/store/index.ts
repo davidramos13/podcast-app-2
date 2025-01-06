@@ -5,13 +5,11 @@ import { PlayerSlice } from './player/types';
 import { createPlayerSlice } from './player';
 import createSearchSlice from './createSearchSlice';
 import audio from './player/AudioControl';
-import { selectTrack } from './player/selectors';
 import { useShallow } from 'zustand/shallow';
 
 const initParams = (slice: PlayerSlice) => {
   const { setCurrentTime: setTime, stop, nextTrack, volume } = slice;
-  const getTrack = () => selectTrack(slice);
-  return { setTime, stop, nextTrack, volume, getTrack };
+  return { setTime, stop, nextTrack, volume };
 };
 
 export const useAppStore = create<StoreState>()(

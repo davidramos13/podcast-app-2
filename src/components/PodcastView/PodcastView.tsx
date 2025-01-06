@@ -2,17 +2,10 @@ import { Fragment, ReactNode } from 'react';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import usePodcastView from './usePodcastView';
 import { SearchBar } from '../ui';
-import EpisodesTable from './EpisodesTable';
 import Spinner from '../ui/Spinner';
 import Header from '../ui/Header';
-import {
-  DivTitleContainer,
-  StyledPlayerCell,
-  TitleText,
-  BackButton,
-  DivImage,
-  MainContainer,
-} from './PodcastView.styled';
+import { BackButton, DivImage } from './PodcastView.styled';
+import PodcastContent from './PodcastContent';
 
 const PodcastView = () => {
   const { podcastFull, isLoading, filter, setFilter, goBack } = usePodcastView();
@@ -22,15 +15,7 @@ const PodcastView = () => {
   if (isLoading) {
     mainContent = <Spinner />;
   } else if (podcastFull) {
-    mainContent = (
-      <MainContainer>
-        <DivTitleContainer>
-          <StyledPlayerCell episodeId={podcastFull.episodes[0].id} />
-          <TitleText>{podcastFull.name}</TitleText>
-        </DivTitleContainer>
-        <EpisodesTable data={podcastFull.episodes} />
-      </MainContainer>
-    );
+    mainContent = <PodcastContent podcastFull={podcastFull} filter={filter} />;
   }
 
   return (

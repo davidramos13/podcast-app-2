@@ -10,8 +10,7 @@ export const selectProgress = (slice: PlayerSlice) => {
 
 export const selectIsPlayingThisEpisode = (episodeId: number) => (slice: PlayerSlice) => {
   const track = selectTrack(slice);
-  const { playing } = slice;
-  return !playing ? false : track.episodeId === episodeId;
+  return track && slice.playing ? track.episodeId === episodeId : false;
 };
 
 export const selectControlsState = (slice: PlayerSlice) => {

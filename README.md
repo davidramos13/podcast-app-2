@@ -1,9 +1,9 @@
 # Podcast App - Frontend Challenge
 
-This repo covers all requirements set for the challenge. It features:
+This repo features a podcast web application, with a custom made audio player. It was a challenge for an interview which is now being updated to showcase some more recent technologies. The first version had a requirement on Redux and MUI 5 for controls. The idea for v2 is to use @tanstack/query, zustand, shadcn/ui and to do some other small adjustments.
 
 - React with Typescript
-- ~~Redux Toolkit / RTK Query~~ -> replaced with @tanstack/query on v2, check v1 for Redux version
+- ~~Redux Toolkit / RTK Query~~ -> replaced with @tanstack/query and zustand on v2, check v1 for Redux version
 - Vite for bundling
 - MUI 5 & twin.macro (CSS-in-JS & Tailwind)
 - Unit testing (Vitest)
@@ -27,7 +27,7 @@ npm run serve
 
 IMPORTANT: the endpoint used to retrieve apple podcasts uses a CORS Proxy, which may not work if you run this inside a corporate network.
 
-### Some decisions I took:
+### Some decisions I took (challenge version, v1):
 
 - No CRA! It's not the recommended React bundler anymore: [Link](https://dev.to/ag2byte/create-react-app-is-officially-dead-h7o). Going with Vite instead.
 - Changed allorigins.win with corsproxy.io, had intermitent issues with the first one.
