@@ -1,33 +1,40 @@
-import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import episodesApi from './episodesApi';
-import audioMiddleware from './player/audioMiddleware';
-import playerSlice from './player/slice';
-import podcastsApi from './podcastsApi';
-import podcastSearchSlice from './podcastSearchSlice';
+import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
+import { StoreState } from './types';
+import { PlayerSlice } from './player/types';
+import { createPlayerSlice } from './player';
+import createSearchSlice from './createSearchSlice';
+import audio from './player/AudioControl';
+import { useShallow } from 'zustand/shallow';
 
-const rootReducer = combineReducers({
-  podcasts: podcastsApi.reducer,
-  episodes: episodesApi.reducer,
-  player: playerSlice.reducer,
-  podcastSearch: podcastSearchSlice.reducer,
-});
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-export const setupStore = <T extends object>(preloadedState?: PreloadedState<T>) => {
-  const store = configureStore({
-    reducer: rootReducer,
-    preloadedState,
-    middleware: gdm =>
-      gdm().prepend(audioMiddleware).concat(podcastsApi.middleware).concat(episodesApi.middleware),
-  });
-
-  return store;
+const initParams = (slice: PlayerSlice) => {
+  const { setCurrentTime: setTime, stop, nextTrack, volume } = slice;
+  return { setTime, stop, nextTrack, volume };
 };
 
-export type StoreType = ReturnType<typeof setupStore>;
-export type AppDispatch = StoreType['dispatch'];
+export const useAppStore = create<StoreState>()(
+  devtools((set, get, api) => {
+    const store = {
+      ...createPlayerSlice(set, get, api),
+      ...createSearchSlice(set, get, api),
+    };
+    audio.init(initParams(store));
+    return store;
+  }),
+);
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+// type PickState<T, K extends keyof T> = Pick<T, K>;
+type PickState = Pick<StoreState, keyof StoreState>;
+export function useShallowAppStore<K extends keyof StoreState>(keys: K[]): PickState;
+export function useShallowAppStore<T>(selector: (state: StoreState) => T): T;
+
+export function useShallowAppStore<K extends keyof StoreState>(
+  arg: K[] | ((state: StoreState) => unknown),
+) {
+  const selector = Array.isArray(arg)
+    ? (state: StoreState) =>
+        arg.reduce((acc, key) => ({ ...acc, [key]: state[key] }), {} as PickState)
+    : arg;
+
+  return useAppStore(useShallow(selector));
+}

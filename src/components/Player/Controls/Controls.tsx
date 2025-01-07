@@ -10,11 +10,10 @@ import RepeatOneOnRoundedIcon from '@mui/icons-material/RepeatOneOnRounded';
 import SkipNextRoundedIcon from '@mui/icons-material/SkipNextRounded';
 import SkipPreviousRoundedIcon from '@mui/icons-material/SkipPreviousRounded';
 
-import { useAppDispatch, useAppSelector } from '~/store';
-import { nextTrack, play, prevTrack, setRepeat, setShuffle } from '~/store/player/slice';
 import PlayButton from '~/components/ui/PlayButton';
-import { selectPlayerControlsState } from '~/store/player/selectors';
+import { selectControlsActions, selectControlsState } from '~/store/player/selectors';
 import { Repeat } from '~/store/player/types';
+import { useShallowAppStore } from '~/store';
 
 const DivContainer = tw.div`grid grid-cols-controls gap-5 items-center`;
 const StyledPlayButton = tw(PlayButton)`w-[50px] h-[50px]`;
@@ -27,15 +26,10 @@ const repeatIcons = {
 };
 
 const Controls = () => {
-  const dispatch = useAppDispatch();
   const { playing, shuffle, repeat, disableNext, disablePrevious, disableShuffle } =
-    useAppSelector(selectPlayerControlsState);
-
-  const onPlay = () => dispatch(play());
-  const onShuffle = () => dispatch(setShuffle());
-  const onBackward = () => dispatch(prevTrack());
-  const onForward = () => dispatch(nextTrack());
-  const onRepeat = () => dispatch(setRepeat());
+    useShallowAppStore(selectControlsState);
+  const { play, setShuffle, prevTrack, nextTrack, setRepeat } =
+    useShallowAppStore(selectControlsActions);
 
   const shuffleIcon = shuffle ? (
     <ShuffleOnRoundedIcon data-testid="shuffle-on" />
@@ -46,21 +40,17 @@ const Controls = () => {
 
   return (
     <DivContainer>
-      <StyledIconButton onClick={onShuffle} disabled={disableShuffle} data-testid="shuffle-btn">
+      <StyledIconButton onClick={setShuffle} disabled={disableShuffle} data-testid="shuffle-btn">
         {shuffleIcon}
       </StyledIconButton>
-      <StyledIconButton
-        onClick={onBackward}
-        disabled={disablePrevious}
-        data-testid="prev-track-btn"
-      >
+      <StyledIconButton onClick={prevTrack} disabled={disablePrevious} data-testid="prev-track-btn">
         <SkipPreviousRoundedIcon />
       </StyledIconButton>
-      <StyledPlayButton onPlay={onPlay} playing={playing} />
-      <StyledIconButton onClick={onForward} disabled={disableNext} data-testid="next-track-btn">
+      <StyledPlayButton onPlay={play} playing={playing} />
+      <StyledIconButton onClick={nextTrack} disabled={disableNext} data-testid="next-track-btn">
         <SkipNextRoundedIcon />
       </StyledIconButton>
-      <StyledIconButton onClick={onRepeat} data-testid="repeat-btn">
+      <StyledIconButton onClick={setRepeat} data-testid="repeat-btn">
         {repeatIcon}
       </StyledIconButton>
     </DivContainer>

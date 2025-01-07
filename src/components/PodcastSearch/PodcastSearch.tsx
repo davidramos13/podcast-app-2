@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 import usePodcastSearch from './usePodcastSearch';
-import { SearchBar } from '../ui';
-import PodcastsTable from './PodcastsTable';
+import { SearchBar, Table } from '../ui';
 import Spinner from '../ui/Spinner';
 import Header from '../ui/Header';
+import columns from './PodcastsTable/columns';
 
 const PodcastSearch = () => {
   const { filter, onChangeFilter, data, isLoading } = usePodcastSearch();
@@ -13,7 +13,7 @@ const PodcastSearch = () => {
       <Header>
         <SearchBar filter={filter} setFilter={onChangeFilter} />
       </Header>
-      {isLoading ? <Spinner /> : data && <PodcastsTable data={data} />}
+      {isLoading ? <Spinner /> : data && <Table columns={columns} data={data} />}
     </Fragment>
   );
 };

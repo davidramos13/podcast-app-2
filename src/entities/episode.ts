@@ -1,6 +1,5 @@
-import { EntityWithID } from './shared';
-
-export type Episode = EntityWithID & {
+export type Episode = {
+  id: number;
   title: string;
   releaseDate: string;
   description: string;

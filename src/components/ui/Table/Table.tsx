@@ -7,12 +7,12 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material';
-import { EntityWithID } from '~/entities/shared';
 import { unforward } from '~/utils/styling';
 import { TableProps } from './types';
 import SortHead from './SortHead';
 import { useTable } from './useTable';
 import { Fragment } from 'react';
+import { IDType } from '~/store/types';
 
 const StyledCell = styled(
   TableCell,
@@ -21,7 +21,7 @@ const StyledCell = styled(
   hideShortDevice?: boolean;
 }>(({ hideShortDevice }) => [tw`border-b-light`, hideShortDevice && tw`hidden lg:table-cell`]);
 
-const Table = <T extends EntityWithID>(props: TableProps<T>) => {
+const Table = <T extends IDType>(props: TableProps<T>) => {
   const { data, columns, sortColumn, onSort } = useTable(props);
 
   return (
@@ -48,6 +48,7 @@ const Table = <T extends EntityWithID>(props: TableProps<T>) => {
                       key={col.name}
                       hideShortDevice={col.hideSmallDevice}
                       css={col.cellCss}
+                      {...(col.sendDataProp ? { data } : {})}
                     >
                       {col.content ? col.content(item) : value}
                     </StyledCell>

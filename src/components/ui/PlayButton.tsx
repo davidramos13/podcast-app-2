@@ -1,11 +1,9 @@
-import { FC } from 'react';
 import { IconButton } from '@mui/material';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
 import tw, { styled } from 'twin.macro';
 import { unforward } from '~/utils/styling';
-import { useAppDispatch } from '~/store';
-import { pause } from '~/store/player/slice';
+import { useShallowAppStore } from '~/store';
 
 const TwIconButton = styled(
   IconButton,
@@ -13,12 +11,13 @@ const TwIconButton = styled(
 )<{ playing: boolean }>(({ playing }) => [playing && tw`bg-pauseBlue`]);
 
 type Props = { playing: boolean; onPlay: () => void };
-const PlayButton: FC<Props> = ({ playing, onPlay, ...props }) => {
-  const dispatch = useAppDispatch();
+
+function PlayButton({ playing, onPlay, ...props }: Props) {
+  const pause = useShallowAppStore(state => state.pause);
 
   const onInternalClick = () => {
     if (playing) {
-      dispatch(pause());
+      pause();
     } else {
       onPlay();
     }
@@ -38,5 +37,6 @@ const PlayButton: FC<Props> = ({ playing, onPlay, ...props }) => {
       )}
     </TwIconButton>
   );
-};
+}
+
 export default PlayButton;

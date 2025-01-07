@@ -1,5 +1,4 @@
 import { Typography } from '@mui/material';
-import { FC } from 'react';
 import tw from 'twin.macro';
 import { Episode } from '~/entities';
 
@@ -14,9 +13,11 @@ export const TextCell = tw(({ children, ...props }) => (
 ))`text-ellipsis line-clamp-3`;
 
 type CellProps = { episode: Episode };
-export const TitleCell: FC<CellProps> = ({ episode }) => (
-  <CellContainer>
-    <Img src={episode.thumbnailUrl} alt={episode.title} />
-    <TitleText>{episode.title}</TitleText>
-  </CellContainer>
-);
+export function TitleCell({ episode }: CellProps) {
+  return (
+    <CellContainer>
+      <Img src={episode.thumbnailUrl} alt={episode.title} />
+      <TitleText>{episode.title}</TitleText>
+    </CellContainer>
+  );
+}

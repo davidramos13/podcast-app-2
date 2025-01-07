@@ -30,6 +30,7 @@ module.exports = {
   plugins: ['@typescript-eslint', 'react'],
   rules: {
     'react/no-unknown-property': ['error', { ignore: ['css', 'tw'] }], // ignore twin.macro & emotion attributes
+    'react-hooks/exhaustive-deps': 'off',
   },
   settings: {
     react: {

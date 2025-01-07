@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PodcastFull } from '~/entities/podcast';
-import { useAppSelector } from '~/store';
-import { useGetEpisodesQuery } from '~/store/episodesApi';
+import { useShallowAppStore } from '~/store';
+import { fetchEpisodes } from '~/store/episodesApi';
 
 const usePodcastView = () => {
   const { podcastId } = useParams();
@@ -10,23 +11,15 @@ const usePodcastView = () => {
   const id = parseInt(podcastId!) || 0;
 
   const [filter, setFilter] = useState('');
-  const { isLoading } = useGetEpisodesQuery(id, { skip: id <= 0 });
-  const data = useAppSelector(({ player }) => player.viewPodcast);
+  const { data, isLoading } = useQuery({
+    queryKey: ['episodes', podcastId],
+    queryFn: () => fetchEpisodes(id),
+    enabled: id > 0,
+  });
 
   const goBack = () => navigate(-1);
 
-  const filterValue = filter.toLowerCase();
-
-  let podcastFull: PodcastFull | null = null;
-  if (data) {
-    const { episodes, ...podcast } = data;
-    podcastFull = {
-      ...podcast,
-      episodes: episodes.filter(x => x.title.toLowerCase().includes(filterValue)),
-    };
-  }
-
-  return { isLoading, podcastFull, filter, setFilter, goBack };
+  return { isLoading, podcastFull: data, filter, setFilter, goBack };
 };
 
 export default usePodcastView;

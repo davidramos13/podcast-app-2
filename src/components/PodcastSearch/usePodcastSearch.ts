@@ -1,28 +1,30 @@
-import { useLazyGetPodcastsQuery } from '~/store/podcastsApi';
-import { useAppDispatch, useAppSelector } from '~/store';
-import { setFilter } from '~/store/podcastSearchSlice';
 import useDebouncedCall from '~/utils/useDebouncedCall';
 import { useEffect } from 'react';
+import { useShallowAppStore } from '~/store';
+import { useQuery } from '@tanstack/react-query';
+import { fetchPodcasts } from '~/store/podcastsApi';
 
 const usePodcastSearch = () => {
-  const filter = useAppSelector(({ podcastSearch }) => podcastSearch.filter);
-  const dispatch = useAppDispatch();
-  const [getPodcasts, { data, isLoading }] = useLazyGetPodcastsQuery();
+  const { filter, setFilter } = useShallowAppStore(['filter', 'setFilter']);
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['search', filter],
+    queryFn: () => fetchPodcasts(filter),
+    enabled: false,
+  });
 
-  const debounceCallback = useDebouncedCall((value: string) => getPodcasts(value, true));
+  const debounceCallback = useDebouncedCall(() => refetch());
 
   useEffect(() => {
-    if (filter.length >= 3) {
-      debounceCallback(filter);
-    }
-
     return () => {
       debounceCallback.cancel();
     };
-  }, [debounceCallback, filter]);
+  }, []);
 
   const onChangeFilter = (value: string) => {
-    dispatch(setFilter(value));
+    setFilter(value);
+    if (value.length >= 3) {
+      debounceCallback();
+    }
   };
 
   return { isLoading, data, filter, onChangeFilter };

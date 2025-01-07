@@ -1,6 +1,6 @@
 import { IconButton, Typography } from '@mui/material';
 import tw from 'twin.macro';
-import EpisodesPlayerCell from './EpisodesTable/EpisodesPlayerCell';
+import EpisodesPlayerCell from './PodcastContent/EpisodesPlayerCell';
 
 export const MainContainer = tw.div`mb-20`;
 export const BackButton = tw(IconButton)`bg-bgGray rounded-[15px]`;
